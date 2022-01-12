@@ -7,16 +7,23 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 
 import { ImageEntityApiService } from './imageEntity/imageEntity-api.service';
+import { ImageDisplayComponent } from './image-display/image-display.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ImageDisplayComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [ImageEntityApiService],
-  bootstrap: [AppComponent]
+  providers: [
+    ImageEntityApiService
+  ],
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule { }
