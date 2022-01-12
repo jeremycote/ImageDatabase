@@ -135,15 +135,15 @@ chrome-profiler-events*.json
 .history/*
 
 # misc
-*/.angular/cache
-*/.sass-cache
+.angular/cache
+.sass-cache
 connect.lock
-*/coverage
+/coverage
 libpeerconnection.log
 npm-debug.log
 yarn-error.log
 testem.log
-*/typings
+/typings
 
 # System Files
 .DS_Store
