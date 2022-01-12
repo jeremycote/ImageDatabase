@@ -5,6 +5,8 @@
 
 <ul>
   <li *ngFor="let image of imagesList">
-    {{image.filename}}
+    <img style="height: 20vh; aspect-ratio: 1;" src={{image.filename}}>
   </li>
 </ul>
+
+<img src="/api/similar_to/R1.jpg" alt="Place image title">

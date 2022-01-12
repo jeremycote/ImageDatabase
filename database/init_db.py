@@ -8,8 +8,8 @@ with open('database/schema.sql') as f:
 
 cur = connection.cursor()
 
-cur.execute("INSERT INTO images (filename, description) VALUES (?, ?)", ('Cake.jpg', "Delicious Cake!"))
-cur.execute("INSERT INTO images (filename, description) VALUES (?, ?)", ('R1.jpg', "Robert Downey Jr."))
+cur.execute("INSERT INTO images (filename, description) VALUES (?, ?)", ('images/Cake.jpg', "Delicious Cake!"))
+cur.execute("INSERT INTO images (filename, description) VALUES (?, ?)", ('images/R1.jpg', "Robert Downey Jr."))
 
 connection.commit()
 connection.close()

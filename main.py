@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 
+import json
+
 from entities.Entity import Session, engine, Base
 from entities.ImageEntity import ImageEntity, ImageSchema
 
@@ -25,14 +27,15 @@ def index():
     return app.send_static_file("dist/index.html")
 
 @app.route("/api/similar_to/<source>")
-def find_similar_to(source: str) -> str:
+def find_similar_to(source: str):
     '''Find similar images to source.'''
 
     print("Creating Recognition for " + source)
 
     simImages, simValues = recognizer.getSimilarImages(source)
 
-    return send_from_directory(app.config["IMAGES"], simImages[0], as_attachment=False)
+    return json.dumps(simImages)
+    # return send_from_directory(app.config["IMAGES"], simImages[0], as_attachment=False)
 
 @app.route('/api/images')
 def get_images():
@@ -62,20 +65,13 @@ def add_image():
     print(request.get_json())
 
     posted_image = ImageSchema(only=('filename', 'description')).load(request.get_json())
-    print("Created posted_image")
     image = ImageEntity(**posted_image)
-    print("Created image")
     session = Session()
-    print("Created Session")
     session.add(image)
-    print("Added image")
     session.commit()
-    print("Commited")
 
     new_image = ImageSchema().dump(image)
-    print("Created new_image")
     session.close()
-    print("Closed session")
     return jsonify(new_image), 201
 
 @app.route('/<path>/')
@@ -83,6 +79,12 @@ def redirect(path):
     '''Redirects calls to dist folder'''
     print("Redirecting " + path)
     return app.send_static_file("dist/" + path)
+
+@app.route('/images/<path:path>/')
+def redirect_images(path):
+    '''Redirects images from images folder'''
+    print("Redirecting " + path)
+    return send_from_directory("images/raw", path)
 
 # start session
 session = Session()
