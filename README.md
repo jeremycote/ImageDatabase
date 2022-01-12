@@ -7,10 +7,9 @@ Shopify Data Engineer application challenge
 1. pip install -r requirements.txt
 2. python run main.py
 
-# Setup - Update frontend
+# Setup - Update frontend - Only if changing angular frontend
 * You will need node (Project built with 17.3.1)
 
-Only required if updating angular frontend
 1. cd frontend
 2. npm install
 3. ng build
