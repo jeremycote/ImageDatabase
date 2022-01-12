@@ -2,7 +2,7 @@ import sqlite3
 
 connection = sqlite3.connect('database.db')
 
-with open('src/schema.sql') as f:
+with open('backend/src/schema.sql') as f:
     connection.executescript(f.read())
 
 cur = connection.cursor()

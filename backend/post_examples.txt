@@ -1,0 +1,4 @@
+curl -X POST -H 'Content-Type: application/json' -d '{
+  "filename": "Cake - Copy.jpg",
+  "description": "CAKE!!!"
+}' http://0.0.0.0:5000/images
