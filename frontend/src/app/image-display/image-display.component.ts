@@ -10,28 +10,20 @@ import { ImageEntityApiService } from '../imageEntity/imageEntity-api.service';
 })
 export class ImageDisplayComponent implements OnInit {
 
-  imagesListSubs: Subscription = Subscription.EMPTY;
+  imagesListSubs: Subscription;
   imagesList: ImageEntity[] = [];
 
   constructor(private imagesApi: ImageEntityApiService){
-    /*
     this.imagesListSubs = this.imagesApi
-    .getExams()
+    .getImageEntities()
     .subscribe(res => {
         this.imagesList = res;
       },
       console.error
     );
-    */
   }
   ngOnInit() {
-    this.imagesListSubs = this.imagesApi
-      .getExams()
-      .subscribe(res => {
-          this.imagesList = res;
-        },
-        console.error
-      );
+
   }
 
   ngOnDestroy() {

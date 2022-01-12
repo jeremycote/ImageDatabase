@@ -17,8 +17,8 @@ export class ImageEntityApiService {
  };
 
   // GET list of public, future events
-  getExams(): Observable<ImageEntity[]> {
-
+  getImageEntities(): Observable<ImageEntity[]> {
+    console.log("getting image entities")
     return this.http.get<ImageEntity[]>(`${API_URL}/images`)
       .pipe(catchError(this.handleError))
   }

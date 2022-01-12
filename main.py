@@ -1,25 +1,38 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, send_from_directory
+from flask_cors import CORS
 
 from entities.Entity import Session, engine, Base
 from entities.ImageEntity import ImageEntity, ImageSchema
 
+from recognition.recognition import Recognition
+
 # create Flask app
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+app.config["IMAGES"] = "images/raw"
+
 
 # generate database schema
 Base.metadata.create_all(engine)
 
-print("base gen")
+# setup convelutional neural network
+
+recognizer: Recognition = Recognition()
 
 @app.route('/')
 def index():
     print("called for index")
     return app.send_static_file("dist/index.html")
 
-@app.route('/<path>/')
-def deb(path):
-    print("Redirecting", path)
-    return app.send_static_file("dist/" + path)
+@app.route("/api/similar_to/<source>")
+def find_similar_to(source: str) -> str:
+    '''Find similar images to source.'''
+
+    print("Creating Recognition for " + source)
+
+    simImages, simValues = recognizer.getSimilarImages(source)
+
+    return send_from_directory(app.config["IMAGES"], simImages[0], as_attachment=False)
 
 @app.route('/api/images')
 def get_images():
@@ -38,7 +51,7 @@ def get_images():
     session.close()
     return jsonify(images)
 
-@app.route('/images', methods=['POST'])
+@app.route('/api/images', methods=['POST'])
 def add_image():
 
     print("Received Post for new image")
@@ -65,6 +78,12 @@ def add_image():
     print("Closed session")
     return jsonify(new_image), 201
 
+@app.route('/<path>/')
+def redirect(path):
+    '''Redirects calls to dist folder'''
+    print("Redirecting " + path)
+    return app.send_static_file("dist/" + path)
+
 # start session
 session = Session()
 
@@ -86,7 +105,7 @@ for image in images:
     print(f"{image.id} {image.filename} - {image.description}")
 
 if __name__ == "__main__":
-    app.run(host="172.28.13.62", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
 
 
 """

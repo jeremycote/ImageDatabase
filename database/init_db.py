@@ -1,8 +1,9 @@
 import sqlite3
+import os.path
 
-connection = sqlite3.connect('/home/jeremy/Projects/ImageDatabase/database/database.db')
+connection = sqlite3.connect('database/database.db')
 
-with open('/home/jeremy/Projects/ImageDatabase/database/schema.sql') as f:
+with open('database/schema.sql') as f:
     connection.executescript(f.read())
 
 cur = connection.cursor()
