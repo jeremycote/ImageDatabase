@@ -1,11 +1,6 @@
 from datetime import datetime
-from sqlalchemy import create_engine, Column, String, Integer, DateTime
+from sqlalchemy import Column, Integer, DateTime
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm.session import Session
-
-engine = create_engine('sqlite:///database/database.db')
-Session = sessionmaker(bind=engine)
 
 Base = declarative_base()
 

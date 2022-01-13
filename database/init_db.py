@@ -1,16 +1,23 @@
 import sqlite3
 import os.path
+from PIL.Image import init
 
-connection = sqlite3.connect('database/database.db')
+from tqdm import tqdm
 
-with open('database/schema.sql') as f:
-    connection.executescript(f.read())
+def init_db():
+    connection = sqlite3.connect('database/database.db')
 
-cur = connection.cursor()
+    with open('database/schema.sql') as f:
+        connection.executescript(f.read())
 
-cur.execute("INSERT INTO images (filename, description) VALUES (?, ?)", ('images/Cake.jpg', "Delicious Cake!"))
-cur.execute("INSERT INTO images (filename, description) VALUES (?, ?)", ('images/R1.jpg', "Robert Downey Jr."))
+    cur = connection.cursor()
 
-connection.commit()
-connection.close()
+    for file in tqdm(os.listdir("images/raw")):
+        cur.execute(f"INSERT INTO images (filename, description, path) VALUES (?, ?, ?)", (file, "Description", "images/" + file))
+
+    connection.commit()
+    connection.close()
+
+if __name__ == '__main__':
+    init_db()
 

@@ -8,17 +8,26 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 from torchvision import models
 
+from recognition.resize import transformImages
+
 from numpy.testing import assert_almost_equal
 
-class Recognition():
-    def __init__(self) -> None:
-        self.img2vec = Img2VecResnet18()
-        self.inputDir = "images/cnn"
-        self.allVectors = {}
-        self.k = 5
-        self.updateSimilarityMatrix()
+from typing import List
 
-    def updateSimilarityMatrix(self):
+class Recognition():
+    def __init__(self, reload=False) -> None:
+        self.img2vec = Img2VecResnet18()
+        self.allVectors = {}
+        self.inputDir = "images/cnn"
+
+        if reload:
+            transformImages("images/raw", "images/cnn")
+
+
+    def updateSimilarityMatrix(self, k=5):
+        
+        self.k = k
+
         for image in tqdm(os.listdir(self.inputDir)):
             I = Image.open(os.path.join(self.inputDir, image))
             vec = self.img2vec.getVec(I)

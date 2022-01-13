@@ -2,39 +2,60 @@ from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 
 import json
+from numpy import e, integer
 
-from entities.Entity import Session, engine, Base
+from sqlalchemy import sql
+
 from entities.ImageEntity import ImageEntity, ImageSchema
+from entities.SQLManagement import SQLManagement
 
 from recognition.recognition import Recognition
 
 # create Flask app
 app = Flask(__name__)
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app)
 app.config["IMAGES"] = "images/raw"
 
 
-# generate database schema
-Base.metadata.create_all(engine)
+# generate sql management
+sqlManagement = SQLManagement(reload=True)
 
-# setup convelutional neural network
-
-recognizer: Recognition = Recognition()
+# setup convolutional neural network
+recognizer: Recognition = Recognition(True)
+recognizer.updateSimilarityMatrix(k=10)
 
 @app.route('/')
 def index():
     print("called for index")
     return app.send_static_file("dist/index.html")
 
-@app.route("/api/similar_to/<source>")
-def find_similar_to(source: str):
+@app.route("/api/similar_to/<string:source>/<int:accuracy>/<int:max>")
+def find_similar_to(source: str, accuracy: int, max: int):
     '''Find similar images to source.'''
 
     print("Creating Recognition for " + source)
+    
+    # recognizer.updateSimilarityMatrix(k=max)
 
-    simImages, simValues = recognizer.getSimilarImages(source)
+    filename = ""
+    if source.isdigit():
+        filename = sqlManagement.getElementWithId(int(source)).filename
+    else:
+        elements = sqlManagement.getElementsWithFilename(source)
+        if elements:
+            filename = elements[0].filename
+        else:
+            return source + "Not found", 401
 
-    return json.dumps(simImages)
+    simImages, simValues = recognizer.getSimilarImages(filename)
+
+    imageEntities: ImageEntity = []
+    for i in range(len(simImages)):
+        if simValues[i] >= accuracy / 100:
+            for entity in sqlManagement.getImageEntitiesWithFilename(simImages[i]):
+                imageEntities.append(entity)
+
+    return jsonify(imageEntities), 201
     # return send_from_directory(app.config["IMAGES"], simImages[0], as_attachment=False)
 
 @app.route('/api/images')
@@ -43,16 +64,7 @@ def get_images():
     print("Getting images")
 
     # fetch from database
-    session = Session()
-    image_objects = session.query(ImageEntity).all()
-
-    # Convert SQL query to JSON-serializable objects
-    schema = ImageSchema(many=True)
-    images = schema.dump(image_objects)
-
-    # serialize as JSON
-    session.close()
-    return jsonify(images)
+    return jsonify(sqlManagement.getAllImageRecords()), 201
 
 @app.route('/api/images', methods=['POST'])
 def add_image():
@@ -60,18 +72,16 @@ def add_image():
     print("Received Post for new image")
 
     if request.get_json() == None:
-        return "None received"
-
-    print(request.get_json())
+        return "No JSON was received"
 
     posted_image = ImageSchema(only=('filename', 'description')).load(request.get_json())
     image = ImageEntity(**posted_image)
-    session = Session()
-    session.add(image)
-    session.commit()
+    
+    # Save to database
+    sqlManagement.addImageRecord(image)
 
+    # Create response to confirm POST
     new_image = ImageSchema().dump(image)
-    session.close()
     return jsonify(new_image), 201
 
 @app.route('/<path>/')
@@ -84,27 +94,7 @@ def redirect(path):
 def redirect_images(path):
     '''Redirects images from images folder'''
     print("Redirecting " + path)
-    return send_from_directory("images/raw", path)
-
-# start session
-session = Session()
-
-# check for existing data
-images = session.query(ImageEntity).all()
-
-if len(images) == 0:
-    # Create and persiste example image entry
-    image_cake = ImageEntity("Cake.jpg", "A Delicious piece of cake!")
-    session.add(image_cake)
-    session.commit()
-    session.close()
-
-    # Reload new images
-    images = session.query(ImageEntity).all()
-
-print("### Images in SQL: ")
-for image in images:
-    print(f"{image.id} {image.filename} - {image.description}")
+    return send_from_directory("images/cnn", path)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

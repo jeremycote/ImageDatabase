@@ -1,8 +1,9 @@
 export class ImageEntity {
     constructor(
         public filename: string,
+        public path: string,
         public description: string,
-        public _id?: number,
+        public id?: number,
         public updatedAt?: Date,
         public createdAt?: Date
     ) {}

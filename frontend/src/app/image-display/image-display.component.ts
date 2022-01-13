@@ -3,6 +3,8 @@ import { Subscription, Observable, map } from 'rxjs';
 import { ImageEntity } from '../imageEntity/imageEntity.model';
 import { ImageEntityApiService } from '../imageEntity/imageEntity-api.service';
 import { HttpClient } from '@angular/common/http';
+import { Options } from '@angular-slider/ngx-slider';
+
 
 @Component({
   selector: 'app-image-display',
@@ -11,13 +13,32 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ImageDisplayComponent implements OnInit {
 
-  imagesListSubs: Subscription;
+  imagesListSubs: Subscription = Subscription.EMPTY;
   imagesList: ImageEntity[] = [];
 
-  imageToShow:any;
-  myURL:any
+  imageToShow: any = null;
+
+  accuracy: number = 70;
+  accuracyOptions: Options = {
+    floor: 0,
+    ceil: 100
+  };
+  accuracyEvent() {
+    if (this.imageToShow != null) {
+      this.getImagesLike(this.imageToShow, this.accuracy, this.maxRecommendations)
+    }
+  }
+
+  maxRecommendations: number = 10;
+  maxRecommendationsChanged(){
+    this.getImagesLike(this.imageToShow, this.accuracy, this.maxRecommendations)
+  }
 
   constructor(private imagesApi: ImageEntityApiService, private http: HttpClient){
+    this.getAllImages();
+  }
+
+  getAllImages(){
     this.imagesListSubs = this.imagesApi
     .getImageEntities()
     .subscribe(res => {
@@ -25,8 +46,25 @@ export class ImageDisplayComponent implements OnInit {
       },
       console.error
     );
+    this.imageToShow = null;
   }
 
+  getImagesLike(image: ImageEntity, accuracy: number, max: number){
+    this.imagesListSubs = this.imagesApi
+    .getImageEntitiesLike(image, accuracy, max)
+    .subscribe(res => {
+        this.imagesList = res;
+      },
+      console.error
+    );
+  }
+
+  clickedImage(image: ImageEntity){
+    console.log("Clicked on image: " + image.filename);
+    this.imageToShow = image;
+    this.getImagesLike(image, this.accuracy, this.maxRecommendations);
+  }
+  
   ngOnInit() {
     /*
     this.getImage(this.myURL).subscribe(data => {

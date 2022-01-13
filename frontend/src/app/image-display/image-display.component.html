@@ -1,12 +1,21 @@
 <div style="text-align:center">
-  <h1>Images</h1>
+  <div *ngIf="imageToShow != null">
+    <h1>{{imageToShow.filename}}</h1>
+  </div>
+  <div *ngIf="imageToShow == null">
+    <h1>Images</h1>
+  </div>
 </div>
-<h2>Here are the images : </h2>
+<div class="box">
+  <button (click)="getAllImages()">Get All Images</button>
+  <a class="header-text">Max Recommendations:</a>
+  <input [value]="maxRecommendations" type="number" (change)="maxRecommendationsChanged()">
+  <a class="header-text">Recommendation Accuracy:</a>
+  <ngx-slider [(value)]="accuracy" [options]="accuracyOptions" (userChangeEnd)="accuracyEvent()"></ngx-slider>
+</div>
 
-<ul>
-  <li *ngFor="let image of imagesList">
-    <img style="height: 20vh; aspect-ratio: 1;" src={{image.filename}}>
-  </li>
-</ul>
-
-<img src="/api/similar_to/R1.jpg" alt="Place image title">
+<body>
+  <div class="grid-container" *ngFor="let image of imagesList">
+    <img (click)="clickedImage(image)" style="height: 20vh; aspect-ratio: 1;" src={{image.path}}>
+  </div>
+</body>

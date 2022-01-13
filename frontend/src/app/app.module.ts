@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { ImageEntityApiService } from './imageEntity/imageEntity-api.service';
 import { ImageDisplayComponent } from './image-display/image-display.component';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ImageDisplayComponent } from './image-display/image-display.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxSliderModule
   ],
   providers: [
     ImageEntityApiService

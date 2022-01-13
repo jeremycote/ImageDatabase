@@ -22,4 +22,11 @@ export class ImageEntityApiService {
     return this.http.get<ImageEntity[]>(`${API_URL}/images`)
       .pipe(catchError(this.handleError))
   }
+
+  getImageEntitiesLike(image: ImageEntity, accuracy: number, max: number): Observable<ImageEntity[]> {
+    console.log("getting image entities like " + image.path)
+    console.log("Id is " + image.id)
+    return this.http.get<ImageEntity[]>(`${API_URL}/similar_to/` + image.id + "/" + accuracy + "/" + max)
+      .pipe(catchError(this.handleError))
+  }
 }
