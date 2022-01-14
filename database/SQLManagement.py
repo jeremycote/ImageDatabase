@@ -1,6 +1,4 @@
-import json
 import os.path
-from re import A
 
 import sqlite3
 
@@ -14,8 +12,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from typing import List, Dict
 
 from tqdm import tqdm
-
-from flask import jsonify
 
 exifAttributes = [
     ("make", "Make", "TEXT"), ("model", "Model", "TEXT"), ("date", "DateTimeOriginal", "TEXT"), ("width", "ExifImageWidth", "INTEGER"), ("height", "ExifImageHeight", "INTEGER"),
