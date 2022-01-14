@@ -27,15 +27,12 @@ def index():
     print("called for index")
     return app.send_static_file("dist/index.html")
 
-@app.route("/api/search/<string:query>", defaults={'category': ""})
-@app.route("/api/search/<string:query>/<string:category>")
-def search(query: str,  category: str):
-    results = sqlManagement.getImageEntitiesWithExif(query)
-    
-    print("Result of search \n", results[0], "\n end\n")
-    
+@app.route("/api/search/<string:query>")
+def search(query: str):
+    results = sqlManagement.getImageEntitiesWithExif(query)    
     return jsonify(results), 201 
 
+@app.route("/api/similar_to/<string:source>/", defaults={'accuracy': 70, 'max': 10})
 @app.route("/api/similar_to/<string:source>/<int:accuracy>/<int:max>")
 def find_similar_to(source: str, accuracy: int, max: int):
     """Returns similar images to source in reponse to api GET request.
@@ -76,6 +73,7 @@ def find_similar_to(source: str, accuracy: int, max: int):
     return jsonify(imageEntities), 201
     # return send_from_directory(app.config["IMAGES"], simImages[0], as_attachment=False)
 
+@app.route('/api/search/')
 @app.route('/api/images')
 def get_images():
     '''Get Images from SQL database'''

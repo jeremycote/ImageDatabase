@@ -12,7 +12,7 @@
   <input [value]="maxRecommendations" type="number" (change)="maxRecommendationsChanged()">
   <a class="header-text">Recommendation Accuracy:</a>
   <ngx-slider [(value)]="accuracy" [options]="accuracyOptions" (userChangeEnd)="accuracyEvent()"></ngx-slider>
-  <input type="text" (change)="searchChanged()" [(ngModel)]="search">
+  <input type="search" (change)="searchChanged()" [(ngModel)]="search" id="q" name="q">
 </div>
 
 <body>

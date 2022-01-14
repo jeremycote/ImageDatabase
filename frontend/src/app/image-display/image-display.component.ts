@@ -71,7 +71,7 @@ export class ImageDisplayComponent implements OnInit {
 
   searchImages(query: string){
     this.imagesListSubs = this.imagesApi
-    .searchImageEntities(query, "all")
+    .searchImageEntities(query)
     .subscribe(res => {
         this.imagesList = res;
       },

@@ -86,8 +86,9 @@ class SQLManagement:
 
         data = session.query(self.images).filter(or_(False, *queries)).all()
 
-        results_as_dict = data.mappings().all()
-
+        dicts = []
+        for d in data:
+            dicts.append(dict(d))
         # search_args = [exif == self.images.c[col[0]] for col in exifAttributes]
         # data = session.query(self.images).filter(or_(*search_args)).all()
         # results_as_dict = data.mappings().all()
@@ -99,7 +100,7 @@ class SQLManagement:
         
         session.close()
 
-        return results_as_dict
+        return dicts
 
     def getImageEntitiesWithFilename(self, filename: str):
         # select * from table where id=id

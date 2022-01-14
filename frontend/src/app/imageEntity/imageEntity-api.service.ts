@@ -29,9 +29,9 @@ export class ImageEntityApiService {
       .pipe(catchError(this.handleError))
   }
 
-  searchImageEntities(query: string, category: string): Observable<ImageEntity[]> {
+  searchImageEntities(query: string): Observable<ImageEntity[]> {
     console.log("searching image entities for " + query)
-    return this.http.get<ImageEntity[]>(`${API_URL}/search/` + query + "/" + category)
+    return this.http.get<ImageEntity[]>(`${API_URL}/search/` + query)
       .pipe(catchError(this.handleError))
   }
 }
