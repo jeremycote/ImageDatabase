@@ -27,6 +27,9 @@ docs/_build/
 venv/
 ENV/
 
+# Sphinx build
+docs/build/
+
 # angular
 *./angular
 
