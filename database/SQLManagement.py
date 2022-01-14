@@ -42,14 +42,14 @@ class SQLManagement:
         Base.metadata.create_all(self.engine)
 
     def getRowsWithValue(self, value: str, columns: List[str], maxRows: int = None) -> List[Dict[str,str]]:
-        """Returns rows as dicts where columns contain value.
+        """Returns all rows in database where columns contain value.
 
         Args:
             value (str): value to search in database
             columns (List[str]): columns to search in
 
         Returns:
-            list of rows as dictionaries
+            List[Dictionary[str,str]] - List of rows converted to dictionaries
 
         """
 
@@ -153,6 +153,16 @@ def createDb(imageInputPath: str = "images/raw") -> None:
     connection.close()
 
 def formatDateTime(raw: str) -> str:
+    """
+    Helper function. Converts Image exif datetime into Python datetime
+
+    Args:
+        raw (str): exif datetime string
+
+    Returns:
+        str - python compatible datetime string
+    """
+    
     datePieces = raw.split(" ")
     if len(datePieces) == 2:
         return datePieces[0].replace(":","-") + " " + datePieces[1].replace("-",":")

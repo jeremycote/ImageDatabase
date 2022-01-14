@@ -11,8 +11,9 @@ To get started, visit installation
    :maxdepth: 2
    :caption: Contents:
 
-   modules
    installation
+   modules
+
 
 .. include:: ../README.rst
 
