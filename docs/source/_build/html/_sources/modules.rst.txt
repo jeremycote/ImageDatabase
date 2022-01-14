@@ -4,5 +4,4 @@ ImageDatabase
 .. toctree::
    :maxdepth: 4
 
-   database
-   recognition
+   database.SQLManagement

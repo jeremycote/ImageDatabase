@@ -5,7 +5,6 @@ import sqlite3
 from PIL import Image, ExifTags
 
 from sqlalchemy import create_engine, MetaData, Table, or_
-from sqlalchemy.sql import select
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 

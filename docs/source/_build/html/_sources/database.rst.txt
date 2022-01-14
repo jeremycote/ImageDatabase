@@ -1,5 +1,5 @@
-SQLManagement
-=============================
+database.SQLManagement module
+===========
 
 .. automodule:: database.SQLManagement
    :members:

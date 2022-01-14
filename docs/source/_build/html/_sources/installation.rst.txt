@@ -2,7 +2,3 @@
 Installation
 ============ 
 
-To run server, 
-
-
-Frontend
