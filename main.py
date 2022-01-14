@@ -27,8 +27,9 @@ def index():
     print("called for index")
     return app.send_static_file("dist/index.html")
 
-@app.route("/api/search/<string:query>")
-def search(query: str):
+@app.route("/api/search/<string:query>", defaults={'category': ""})
+@app.route("/api/search/<string:query>/<string:category>")
+def search(query: str,  category: str):
     return jsonify(sqlManagement.getImageEntitiesWithExif(query)), 201 
 
 @app.route("/api/similar_to/<string:source>/<int:accuracy>/<int:max>")

@@ -1,17 +1,18 @@
 <div style="text-align:center">
   <div *ngIf="imageToShow != null">
-    <h1>{{imageToShow.filename}}</h1>
+    <h1>Recommendations for {{imageToShow.filename}}</h1>
   </div>
   <div *ngIf="imageToShow == null">
     <h1>Images</h1>
   </div>
 </div>
-<div class="box">
+<div class="box div">
   <button (click)="getAllImages()">Get All Images</button>
   <a class="header-text">Max Recommendations:</a>
   <input [value]="maxRecommendations" type="number" (change)="maxRecommendationsChanged()">
   <a class="header-text">Recommendation Accuracy:</a>
   <ngx-slider [(value)]="accuracy" [options]="accuracyOptions" (userChangeEnd)="accuracyEvent()"></ngx-slider>
+  <input type="text" (change)="searchChanged()" [(ngModel)]="search">
 </div>
 
 <body>

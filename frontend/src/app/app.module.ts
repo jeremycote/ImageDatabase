@@ -1,4 +1,3 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -10,6 +9,10 @@ import { ImageEntityApiService } from './imageEntity/imageEntity-api.service';
 import { ImageDisplayComponent } from './image-display/image-display.component';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
+
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +22,8 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxSliderModule
+    NgxSliderModule,
+    FormsModule
   ],
   providers: [
     ImageEntityApiService

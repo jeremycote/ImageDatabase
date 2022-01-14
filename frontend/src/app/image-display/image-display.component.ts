@@ -5,7 +5,6 @@ import { ImageEntityApiService } from '../imageEntity/imageEntity-api.service';
 import { HttpClient } from '@angular/common/http';
 import { Options } from '@angular-slider/ngx-slider';
 
-
 @Component({
   selector: 'app-image-display',
   templateUrl: './image-display.component.html',
@@ -23,6 +22,12 @@ export class ImageDisplayComponent implements OnInit {
     floor: 0,
     ceil: 100
   };
+
+  search: string = ""
+  searchChanged(){
+    console.log("Search field changed to " + this.search)
+    this.searchImages(this.search)
+  }
 
   getPath(file: string): string{
     return "images/" + file;
@@ -57,6 +62,16 @@ export class ImageDisplayComponent implements OnInit {
   getImagesLike(image: ImageEntity, accuracy: number, max: number){
     this.imagesListSubs = this.imagesApi
     .getImageEntitiesLike(image, accuracy, max)
+    .subscribe(res => {
+        this.imagesList = res;
+      },
+      console.error
+    );
+  }
+
+  searchImages(query: string){
+    this.imagesListSubs = this.imagesApi
+    .searchImageEntities(query, "all")
     .subscribe(res => {
         this.imagesList = res;
       },
