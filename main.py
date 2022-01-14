@@ -16,7 +16,7 @@ app = Flask(__name__)
 CORS(app)
 
 # generate sql management
-sqlManagement = SQLManagement(reload=False)
+sqlManagement = SQLManagement(reload=True)
 
 # setup convolutional neural network
 recognizer: Recognition = Recognition(reload=False)
@@ -30,7 +30,11 @@ def index():
 @app.route("/api/search/<string:query>", defaults={'category': ""})
 @app.route("/api/search/<string:query>/<string:category>")
 def search(query: str,  category: str):
-    return jsonify(sqlManagement.getImageEntitiesWithExif(query)), 201 
+    results = sqlManagement.getImageEntitiesWithExif(query)
+    
+    print("Result of search \n", results[0], "\n end\n")
+    
+    return jsonify(results), 201 
 
 @app.route("/api/similar_to/<string:source>/<int:accuracy>/<int:max>")
 def find_similar_to(source: str, accuracy: int, max: int):
