@@ -9,12 +9,9 @@ from PIL import Image, ExifTags
 from sqlalchemy import create_engine, MetaData, Table, or_
 from sqlalchemy.sql import select
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
-from entities.Entity import Base
-from entities.ImageEntity import ImageEntity, ImageSchema
-
-
-from typing import List
+from typing import List, Dict
 
 from tqdm import tqdm
 
@@ -26,6 +23,9 @@ exifAttributes = [
     ("copyright", "Copyright", "TEXT"), ("isoSpeed", "ISOSpeed", "INTEGER"), ("cameraOwnerName", "CameraOwnerName", "TEXT"), ("xPTitle", "XPTitle", "TEXT"), ("xPAuthor", "XPAuthor", "TEXT"),
     ("xPKeywords", "XPKeywords", "TEXT"), ("lensModel", "LensModel", "TEXT"), ("lensMake", "LensMake", "TEXT"), ("imageUniqueId", "ImageUniqueId", "TEXT")
 ]
+
+
+Base = declarative_base()
 
 class SQLManagement:
     def __init__(self, reload: bool = False) -> None:
@@ -48,67 +48,38 @@ class SQLManagement:
     def getElementWithId(self, id: int):
         # select * from table where id=id
         session = self.Session()
-        data = session.query(ImageEntity).get(id)
+        data = session.query(self.images).get(id)
         session.close()
-        return data
-
-    def getImageEntityWithId(self, id: int) -> ImageEntity:
-        data = self.getElementWithId(id)
-        schema = ImageSchema(many=False)
-        image = schema.dump(data)
-        return image
-
-    def getElementsWithFilename(self, filename: str):
-        # select * from table where id=id
-        session = self.Session()
-        data = session.query(ImageEntity).filter(ImageEntity.filename == filename)
-
-        session.close()
-
         return data
     
-    def getImageEntitiesWithExif(self, exif: str):
+    def getRowsWithValue(self, value: str, columns: List[str], maxRows: int = None) -> List[Dict[str,str]]:
+        """Returns rows as dicts where columns contain value.
+
+        Args:
+            value (str): value to search in database
+            columns (List[str]): columns to search in
+
+        Returns:
+            list of rows as dictionaries
+
+        """
+
         session = self.Session()
 
-        # data = session.query(self.images).filter(or_(
-        #     ImageEntity.filename.contains(exif),
-        #     ImageEntity.make.contains(exif),
-        #     ImageEntity.model.contains(exif),
-        #     ImageEntity.date.contains(exif),
-        #     ImageEntity.width.contains(exif),
-        #     ImageEntity.height.contains(exif)
-        # ))
-
         queries = []
+        for column in columns:
+            queries.append(self.images.c[column].contains(value))
 
-        for attribute in exifAttributes:
-            queries.append(self.images.c[attribute[0]].contains(exif))
+        data = session.query(self.images).filter(or_(False, *queries))
 
-        data = session.query(self.images).filter(or_(False, *queries)).all()
+        if (maxRows):
+            data = data.limit(maxRows)
 
-        dicts = []
-        for d in data:
-            dicts.append(dict(d))
-        # search_args = [exif == self.images.c[col[0]] for col in exifAttributes]
-        # data = session.query(self.images).filter(or_(*search_args)).all()
-        # results_as_dict = data.mappings().all()
-        # print(results_as_dict)
-        # data = session.query(self.images).filter( exif in self.images.c[column[0]] for column in ImageEntity.getExifAttributes())
-        # print(data)
-        # schema = ImageSchema(many=True)
-        # images = jsonify(data)
-        
+        data = data.all()
+
         session.close()
 
-        return dicts
-
-    def getImageEntitiesWithFilename(self, filename: str):
-        # select * from table where id=id
-        data = self.getElementsWithFilename(filename)
-        schema = ImageSchema(many=True)
-        images = schema.dump(data)
-
-        return images
+        return [dict(d) for d in data]
 
     def getAllImageNames(self) -> List:
         session = self.Session()
@@ -125,19 +96,11 @@ class SQLManagement:
     def getAllImageRecords(self) -> List:
         session = self.Session()
 
-        image_objects = session.query(ImageEntity).all()
-        # Convert SQL query to JSON-serializable objects
-        schema = ImageSchema(many=True)
-        images = schema.dump(image_objects)
+        image_objects = session.query(self.images).all()
 
         session.close()
 
-        return images
-
-    def addImageRecord(self, image: ImageEntity) -> None:
-        session = self.Session()
-        session.add(image)
-        session.commit()
+        return [dict(d) for d in image_objects]
 
 def createDb(imageInputPath: str = "images/raw") -> None:
     """Create a SQLite 3 .db file"""

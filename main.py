@@ -6,8 +6,7 @@ from numpy import e, integer
 
 from sqlalchemy import sql
 
-from entities.ImageEntity import ImageEntity, ImageSchema
-from database.SQLManagement import SQLManagement
+from database.SQLManagement import SQLManagement, exifAttributes
 
 from recognition.recognition import Recognition
 
@@ -16,11 +15,14 @@ app = Flask(__name__)
 CORS(app)
 
 # generate sql management
-sqlManagement = SQLManagement(reload=True)
+sqlManagement = SQLManagement(reload=False)
 
 # setup convolutional neural network
 recognizer: Recognition = Recognition(reload=False)
 recognizer.updateSimilarityMatrix(k=10)
+
+# search
+searchColumns = ["filename"] + [attribute[0] for attribute in exifAttributes]
 
 @app.route('/')
 def index():
@@ -29,7 +31,7 @@ def index():
 
 @app.route("/api/search/<string:query>")
 def search(query: str):
-    results = sqlManagement.getImageEntitiesWithExif(query)    
+    results = sqlManagement.getRowsWithValue(value=query, columns=searchColumns)
     return jsonify(results), 201 
 
 @app.route("/api/similar_to/<string:source>/", defaults={'accuracy': 70, 'max': 10})
@@ -52,26 +54,23 @@ def find_similar_to(source: str, accuracy: int, max: int):
     
     # recognizer.updateSimilarityMatrix(k=max)
 
-    filename = ""
     if source.isdigit():
-        filename = sqlManagement.getElementWithId(int(source)).filename
+        filename = sqlManagement.getRowsWithValue(value=source, columns=["id"], maxRows=1)[0]["filename"]
     else:
-        elements = sqlManagement.getElementsWithFilename(source)
-        if elements:
-            filename = elements[0].filename
-        else:
-            return source + "Not found", 401
+        filename = sqlManagement.getRowsWithValue(value=source,  columns=["filename"], maxRows=1)[0]["filename"]
+
+    if not filename:
+        return source + " Not Found", 401
 
     simImages, simValues = recognizer.getSimilarImages(filename)
 
-    imageEntities: ImageEntity = []
+    similarImages = []
     for i in range(len(simImages)):
         if simValues[i] >= accuracy / 100:
-            for entity in sqlManagement.getImageEntitiesWithFilename(simImages[i]):
-                imageEntities.append(entity)
+            for row in sqlManagement.getRowsWithValue(value=simImages[i], columns=["filename"]):
+                similarImages.append(row)
 
-    return jsonify(imageEntities), 201
-    # return send_from_directory(app.config["IMAGES"], simImages[0], as_attachment=False)
+    return jsonify(similarImages), 201
 
 @app.route('/api/search/')
 @app.route('/api/images')
@@ -84,23 +83,23 @@ def get_images():
     print(sqlManagement.getAllImageRecords()[1])
     return images, 201
 
-@app.route('/api/images', methods=['POST'])
-def add_image():
+# @app.route('/api/images', methods=['POST'])
+# def add_image():
 
-    print("Received Post for new image")
+#     print("Received Post for new image")
 
-    if request.get_json() == None:
-        return "No JSON was received"
+#     if request.get_json() == None:
+#         return "No JSON was received"
 
-    posted_image = ImageSchema(only=('filename', 'description')).load(request.get_json())
-    image = ImageEntity(**posted_image)
+#     posted_image = ImageSchema(only=('filename', 'description')).load(request.get_json())
+#     image = ImageEntity(**posted_image)
     
-    # Save to database
-    sqlManagement.addImageRecord(image)
+#     # Save to database
+#     sqlManagement.addImageRecord(image)
 
-    # Create response to confirm POST
-    new_image = ImageSchema().dump(image)
-    return jsonify(new_image), 201
+#     # Create response to confirm POST
+#     new_image = ImageSchema().dump(image)
+#     return jsonify(new_image), 201
 
 @app.route('/<path>/')
 def redirect(path):
