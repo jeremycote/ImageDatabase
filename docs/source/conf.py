@@ -12,7 +12,9 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath(os.path.join('..', '..')))
+#sys.path.insert(0, os.path.abspath(os.path.join('..', '..')))
+sys.path.insert(0, os.path.abspath('../'))
+
 
 
 # -- Project information -----------------------------------------------------
@@ -24,6 +26,8 @@ author = 'Jeremy Côté'
 # The full version, including alpha/beta/rc tags
 release = '0.1'
 
+add_module_names = False
+add_function_parentheses = True
 
 # -- General configuration ---------------------------------------------------
 

@@ -24,6 +24,7 @@ exifAttributes = [
     ("xPKeywords", "XPKeywords", "TEXT"), ("lensModel", "LensModel", "TEXT"), ("lensMake", "LensMake", "TEXT"), ("imageUniqueId", "ImageUniqueId", "TEXT")
 ]
 
+searchColumns = ["filename"] + [attribute[0] for attribute in exifAttributes]
 
 Base = declarative_base()
 
@@ -45,13 +46,6 @@ class SQLManagement:
 
         Base.metadata.create_all(self.engine)
 
-    def getElementWithId(self, id: int):
-        # select * from table where id=id
-        session = self.Session()
-        data = session.query(self.images).get(id)
-        session.close()
-        return data
-    
     def getRowsWithValue(self, value: str, columns: List[str], maxRows: int = None) -> List[Dict[str,str]]:
         """Returns rows as dicts where columns contain value.
 
@@ -81,26 +75,24 @@ class SQLManagement:
 
         return [dict(d) for d in data]
 
-    def getAllImageNames(self) -> List:
+    def getAllValuesInColumn(self, column: str) -> List[str]:
         session = self.Session()
 
-        images = self.getAllImageRecords()
-
-        paths = []
-        for image in images:
-            paths.append(image["filename"])
+        values = []
+        for image in session.query(self.images).all():
+            values.append(image[column])
 
         session.close()
-        return paths
+        return values
 
-    def getAllImageRecords(self) -> List:
+    def getAllRows(self) -> List:
         session = self.Session()
 
-        image_objects = session.query(self.images).all()
+        rows = session.query(self.images).all()
 
         session.close()
 
-        return [dict(d) for d in image_objects]
+        return [dict(row) for row in rows]
 
 def createDb(imageInputPath: str = "images/raw") -> None:
     """Create a SQLite 3 .db file"""

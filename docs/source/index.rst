@@ -5,7 +5,7 @@
 
 Welcome to Image Database's documentation!
 ==========================================
-To get started, visit :ref:`installation`
+To get started, visit installation
 
 .. toctree::
    :maxdepth: 2
@@ -13,7 +13,8 @@ To get started, visit :ref:`installation`
 
    modules
    installation
-   entities
+
+.. include:: ../README.rst
 
 Indices and tables
 ==================

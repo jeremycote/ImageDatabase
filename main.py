@@ -6,7 +6,7 @@ from numpy import e, integer
 
 from sqlalchemy import sql
 
-from database.SQLManagement import SQLManagement, exifAttributes
+from database.SQLManagement import SQLManagement, searchColumns
 
 from recognition.recognition import Recognition
 
@@ -22,7 +22,6 @@ recognizer: Recognition = Recognition(reload=False)
 recognizer.updateSimilarityMatrix(k=10)
 
 # search
-searchColumns = ["filename"] + [attribute[0] for attribute in exifAttributes]
 
 @app.route('/')
 def index():
@@ -72,34 +71,19 @@ def find_similar_to(source: str, accuracy: int, max: int):
 
     return jsonify(similarImages), 201
 
-@app.route('/api/search/')
+@app.route('/api/search/') # If no search term, serve all images 
 @app.route('/api/images')
 def get_images():
-    '''Get Images from SQL database'''
+    """Returns all images in database.
+    Access using /api/images
+
+    Returns:
+        List of dictionaries as JSON.
+
+    """
     print("Getting images")
 
-    # fetch from database
-    images = jsonify(sqlManagement.getAllImageRecords())
-    print(sqlManagement.getAllImageRecords()[1])
-    return images, 201
-
-# @app.route('/api/images', methods=['POST'])
-# def add_image():
-
-#     print("Received Post for new image")
-
-#     if request.get_json() == None:
-#         return "No JSON was received"
-
-#     posted_image = ImageSchema(only=('filename', 'description')).load(request.get_json())
-#     image = ImageEntity(**posted_image)
-    
-#     # Save to database
-#     sqlManagement.addImageRecord(image)
-
-#     # Create response to confirm POST
-#     new_image = ImageSchema().dump(image)
-#     return jsonify(new_image), 201
+    return jsonify(sqlManagement.getAllRows()), 201
 
 @app.route('/<path>/')
 def redirect(path):
@@ -122,3 +106,21 @@ if __name__ == "__main__":
 2. Doc
 3. Cloud Provider
 """
+
+# @app.route('/api/images', methods=['POST'])
+# def add_image():
+
+#     print("Received Post for new image")
+
+#     if request.get_json() == None:
+#         return "No JSON was received"
+
+#     posted_image = ImageSchema(only=('filename', 'description')).load(request.get_json())
+#     image = ImageEntity(**posted_image)
+    
+#     # Save to database
+#     sqlManagement.addImageRecord(image)
+
+#     # Create response to confirm POST
+#     new_image = ImageSchema().dump(image)
+#     return jsonify(new_image), 201

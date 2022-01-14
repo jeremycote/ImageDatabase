@@ -1,4 +1,5 @@
-# ImageDatabase
+ImageDatabase
+=============
 Shopify Data Engineer application challenge
 
 # Setup - Run
@@ -11,6 +12,8 @@ Shopify Data Engineer application challenge
 Important: Only do this if you want to make changes to frontend
 
 * You will need node (Project built with 17.3.1)
+
 1. cd frontend
 2. npm install
 3. npm run build
+
