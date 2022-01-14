@@ -16,7 +16,7 @@ app = Flask(__name__)
 CORS(app)
 
 # generate sql management
-sqlManagement = SQLManagement(reload=True)
+sqlManagement = SQLManagement(reload=False)
 
 # setup convolutional neural network
 recognizer: Recognition = Recognition(reload=False)
@@ -27,9 +27,14 @@ def index():
     print("called for index")
     return app.send_static_file("dist/index.html")
 
+@app.route("/api/search/<string:query>")
+def search(query: str):
+    return jsonify(sqlManagement.getImageEntitiesWithExif(query)), 201 
+
 @app.route("/api/similar_to/<string:source>/<int:accuracy>/<int:max>")
 def find_similar_to(source: str, accuracy: int, max: int):
     """Returns similar images to source in reponse to api GET request.
+    Access using /api/similar_to/<string:source>/<int:accuracy>/<int:max>
 
     Args:
         source (str): SQL index or filename of ImageEntity

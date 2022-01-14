@@ -18,6 +18,10 @@ class ImageEntity(Entity, Base):
     height = Column(Integer)
 
     @staticmethod
+    def getAllColumns() -> List[str]:
+        return ["filename", "make", "model", "date", "width", "height"]
+
+    @staticmethod
     def getExifAttributes() -> List[str]:
         return [("make", "Make"), ("model", "Model"), ("date", "DateTimeOriginal"), ("width", "ExifImageWidth"), ("height", "ExifImageHeight")]
 
@@ -25,6 +29,11 @@ class ImageSchema(Schema):
     '''Marshmallow Schema for JSON handling'''
     id = fields.Number()
     filename = fields.Str()
-    description = fields.Str()
     created_at = fields.DateTime()
     updated_at = fields.DateTime()
+
+    make = fields.Str()
+    model = fields.Str()
+    date = fields.DateTime()
+    width = fields.Number()
+    height = fields.Number()
