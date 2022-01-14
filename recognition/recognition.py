@@ -4,7 +4,6 @@ import pandas as pd
 from PIL import Image
 import torch
 from torchvision import transforms
-import matplotlib.pyplot as plt
 from tqdm import tqdm
 from torchvision import models
 
@@ -18,7 +17,9 @@ class Recognition():
     def __init__(self, reload=False) -> None:
         self.img2vec = Img2VecResnet18()
         self.allVectors = {}
-        self.inputDir = "images/cnn"
+
+        root = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir))
+        self.inputDir = os.path.join(root, "images/cnn")
 
         if reload:
             transformImages("images/raw", "images/cnn")
@@ -27,7 +28,7 @@ class Recognition():
     def updateSimilarityMatrix(self, k=5):
         
         self.k = k
-
+    
         for image in tqdm(os.listdir(self.inputDir)):
             I = Image.open(os.path.join(self.inputDir, image))
             vec = self.img2vec.getVec(I)

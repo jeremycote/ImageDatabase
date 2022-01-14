@@ -7,21 +7,19 @@ from numpy import e, integer
 from sqlalchemy import sql
 
 from entities.ImageEntity import ImageEntity, ImageSchema
-from entities.SQLManagement import SQLManagement
+from database.SQLManagement import SQLManagement
 
 from recognition.recognition import Recognition
 
 # create Flask app
 app = Flask(__name__)
 CORS(app)
-app.config["IMAGES"] = "images/raw"
-
 
 # generate sql management
 sqlManagement = SQLManagement(reload=True)
 
 # setup convolutional neural network
-recognizer: Recognition = Recognition(True)
+recognizer: Recognition = Recognition(reload=False)
 recognizer.updateSimilarityMatrix(k=10)
 
 @app.route('/')
@@ -31,7 +29,17 @@ def index():
 
 @app.route("/api/similar_to/<string:source>/<int:accuracy>/<int:max>")
 def find_similar_to(source: str, accuracy: int, max: int):
-    '''Find similar images to source.'''
+    """Returns similar images to source in reponse to api GET request.
+
+    Args:
+        source (str): SQL index or filename of ImageEntity
+        accuracy (int): Only return recommendations with greater certainty than accuracy. Ranges from 0 to 100.
+        max (int): Maximum number of ImageEntity to return
+
+    Returns:
+        list of ImageEntity as json.
+
+    """
 
     print("Creating Recognition for " + source)
     
@@ -64,7 +72,9 @@ def get_images():
     print("Getting images")
 
     # fetch from database
-    return jsonify(sqlManagement.getAllImageRecords()), 201
+    images = jsonify(sqlManagement.getAllImageRecords())
+    print(sqlManagement.getAllImageRecords()[1])
+    return images, 201
 
 @app.route('/api/images', methods=['POST'])
 def add_image():

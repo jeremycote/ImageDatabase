@@ -16,6 +16,6 @@
 
 <body>
   <div class="grid-container" *ngFor="let image of imagesList">
-    <img (click)="clickedImage(image)" style="height: 20vh; aspect-ratio: 1;" src={{image.path}}>
+    <img (click)="clickedImage(image)" style="height: 20vh; aspect-ratio: 1;" src={{getPath(image.filename)}}>
   </div>
 </body>

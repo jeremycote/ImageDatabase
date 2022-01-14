@@ -23,6 +23,11 @@ export class ImageDisplayComponent implements OnInit {
     floor: 0,
     ceil: 100
   };
+
+  getPath(file: string): string{
+    return "images/" + file;
+  }
+
   accuracyEvent() {
     if (this.imageToShow != null) {
       this.getImagesLike(this.imageToShow, this.accuracy, this.maxRecommendations)
