@@ -3,10 +3,11 @@ Installation
 
 Setup - Run
 -----------
-You will need Python 3 (Project built with 3.8.10)
+You will need Python 3
 
-1. pip install -r requirements.txt
-2. python run main.py (You must run from project root directory)
+.. code-block: console
+pip install -r requirements.txt
+python run main.py (You must run from project root directory)
 
 Updating frontend
 -----------------

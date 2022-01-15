@@ -1,7 +1,7 @@
-main
-====
+Constants
+=========
 
-.. automodule:: src.main
+.. automodule:: src.constants
    :members:
    :undoc-members:
    :show-inheritance:

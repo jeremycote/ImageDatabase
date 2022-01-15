@@ -7,3 +7,4 @@ ImageDatabase
    main
    SQLManagement
    Img2VecResnet18
+   constants

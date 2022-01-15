@@ -18,6 +18,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Constants" href="constants.html" />
     <link rel="prev" title="SQLManagement" href="SQLManagement.html" /> 
 </head>
 
@@ -43,6 +44,7 @@
 <li class="toctree-l2"><a class="reference internal" href="main.html">main</a></li>
 <li class="toctree-l2"><a class="reference internal" href="SQLManagement.html">SQLManagement</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Img2VecResnet18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="constants.html">Constants</a></li>
 </ul>
 </li>
 </ul>
@@ -72,46 +74,101 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-Img2VecResnet18">
-<span id="img2vecresnet18"></span><h1>Img2VecResnet18<a class="headerlink" href="#module-Img2VecResnet18" title="Permalink to this headline"></a></h1>
+  <section id="module-src.Img2VecResnet18">
+<span id="img2vecresnet18"></span><h1>Img2VecResnet18<a class="headerlink" href="#module-src.Img2VecResnet18" title="Permalink to this headline"></a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="Img2VecResnet18.Img2VecResnet18">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Img2VecResnet18</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reload</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Img2VecResnet18.Img2VecResnet18" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.Img2VecResnet18.Img2VecResnet18">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Img2VecResnet18</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reload</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.Img2VecResnet18.Img2VecResnet18" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class responsible for image recognition.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="Img2VecResnet18.Img2VecResnet18.getFeatureLayer">
-<span class="sig-name descname"><span class="pre">getFeatureLayer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Img2VecResnet18.Img2VecResnet18.getFeatureLayer" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.Img2VecResnet18.Img2VecResnet18.device">
+<span class="sig-name descname"><span class="pre">device</span></span><a class="headerlink" href="#src.Img2VecResnet18.Img2VecResnet18.device" title="Permalink to this definition"></a></dt>
+<dd><p>Torch device to run neural network</p>
+</dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="Img2VecResnet18.Img2VecResnet18.getSimilarImages">
-<span class="sig-name descname"><span class="pre">getSimilarImages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Img2VecResnet18.Img2VecResnet18.getSimilarImages" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="src.Img2VecResnet18.Img2VecResnet18.getFeatureLayer">
+<span class="sig-name descname"><span class="pre">getFeatureLayer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.Img2VecResnet18.Img2VecResnet18.getFeatureLayer" title="Permalink to this definition"></a></dt>
+<dd><p>Gets avgpool layer from resnet18.</p>
+</dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="Img2VecResnet18.Img2VecResnet18.getSimilarityMatrix">
-<span class="sig-name descname"><span class="pre">getSimilarityMatrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vectors</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Img2VecResnet18.Img2VecResnet18.getSimilarityMatrix" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="src.Img2VecResnet18.Img2VecResnet18.getSimilarImages">
+<span class="sig-name descname"><span class="pre">getSimilarImages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.Img2VecResnet18.Img2VecResnet18.getSimilarImages" title="Permalink to this definition"></a></dt>
+<dd><p>Gets self.k most similar images from self.similarNames.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>image</strong> (<em>str</em>) – filename of image for which recommendations are desired</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="Img2VecResnet18.Img2VecResnet18.getVec">
-<span class="sig-name descname"><span class="pre">getVec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Img2VecResnet18.Img2VecResnet18.getVec" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="src.Img2VecResnet18.Img2VecResnet18.getSimilarityMatrix">
+<span class="sig-name descname"><span class="pre">getSimilarityMatrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vectors</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.Img2VecResnet18.Img2VecResnet18.getSimilarityMatrix" title="Permalink to this definition"></a></dt>
+<dd><p>Create pandas DataFrame of simularities using passed vectors</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vectors</strong> (<em>Numpy.Array</em>) – Vectors to parse simularities</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="Img2VecResnet18.Img2VecResnet18.updateSimilarityMatrix">
-<span class="sig-name descname"><span class="pre">updateSimilarityMatrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Img2VecResnet18.Img2VecResnet18.updateSimilarityMatrix" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="src.Img2VecResnet18.Img2VecResnet18.getVec">
+<span class="sig-name descname"><span class="pre">getVec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img:</span> <span class="pre">&lt;module</span> <span class="pre">'PIL.Image'</span> <span class="pre">from</span> <span class="pre">'/Users/jeremycote/Projects/Python/ImageDatabase/venv/lib/python3.9/site-packages/PIL/Image.py'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.Img2VecResnet18.Img2VecResnet18.getVec" title="Permalink to this definition"></a></dt>
+<dd><p>Converts passed image into a numpy vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>img</strong> (<em>Image</em>) – pillow image to convert</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Tensor as Numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.Img2VecResnet18.Img2VecResnet18.inputDir">
+<span class="sig-name descname"><span class="pre">inputDir</span></span><a class="headerlink" href="#src.Img2VecResnet18.Img2VecResnet18.inputDir" title="Permalink to this definition"></a></dt>
+<dd><p>Input Directory for building simularity matrix</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.Img2VecResnet18.Img2VecResnet18.modelName">
+<span class="sig-name descname"><span class="pre">modelName</span></span><a class="headerlink" href="#src.Img2VecResnet18.Img2VecResnet18.modelName" title="Permalink to this definition"></a></dt>
+<dd><p>Model to use for similarity</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.Img2VecResnet18.Img2VecResnet18.numberFeatures">
+<span class="sig-name descname"><span class="pre">numberFeatures</span></span><a class="headerlink" href="#src.Img2VecResnet18.Img2VecResnet18.numberFeatures" title="Permalink to this definition"></a></dt>
+<dd><p>Number of features to extract from images</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.Img2VecResnet18.Img2VecResnet18.updateSimilarityMatrix">
+<span class="sig-name descname"><span class="pre">updateSimilarityMatrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.Img2VecResnet18.Img2VecResnet18.updateSimilarityMatrix" title="Permalink to this definition"></a></dt>
+<dd><p>Updates self.SimilarityMatrix, self.similarNames, self.similarValues and self.k using parameter k.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>k</strong> (<em>int</em>) – Number of recommendations to present when querrying for simularities</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="Img2VecResnet18.transformImages">
-<span class="sig-name descname"><span class="pre">transformImages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputDir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputDir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filenames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Img2VecResnet18.transformImages" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.Img2VecResnet18.transformImages">
+<span class="sig-name descname"><span class="pre">transformImages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputDir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/Users/jeremycote/Projects/Python/ImageDatabase/images/raw'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputDir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/Users/jeremycote/Projects/Python/ImageDatabase/images/cnn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filenames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.Img2VecResnet18.transformImages" title="Permalink to this definition"></a></dt>
 <dd><p>Process Images inside inputDir for use with neural network.
 Resized images are outputed to the outputDir.</p>
-<p><a href="#id1"><span class="problematic" id="id2">*</span></a>Paths are relative to the project root directory.</p>
+<p><a href="#id1"><span class="problematic" id="id2">*</span></a>Paths are absolute</p>
 </dd></dl>
 
 </section>
@@ -121,6 +178,7 @@ Resized images are outputed to the outputDir.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="SQLManagement.html" class="btn btn-neutral float-left" title="SQLManagement" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="constants.html" class="btn btn-neutral float-right" title="Constants" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

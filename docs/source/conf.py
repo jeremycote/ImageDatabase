@@ -12,7 +12,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../src/'))
+sys.path.insert(0, os.path.abspath('../../'))
 
 sys.path.insert(0, os.path.abspath('../../venv/bin'))
 sys.path.insert(0, os.path.abspath('../../venv/lib/python3.9/site-packages/'))
@@ -28,6 +28,8 @@ release = '0.1'
 
 add_module_names = False
 add_function_parentheses = True
+
+autodoc_preserve_defaults = True
 
 # -- General configuration ---------------------------------------------------
 

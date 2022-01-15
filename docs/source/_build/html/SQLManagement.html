@@ -44,6 +44,7 @@
 <li class="toctree-l2"><a class="reference internal" href="main.html">main</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">SQLManagement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Img2VecResnet18.html">Img2VecResnet18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="constants.html">Constants</a></li>
 </ul>
 </li>
 </ul>
@@ -73,25 +74,41 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-SQLManagement">
-<span id="sqlmanagement"></span><h1>SQLManagement<a class="headerlink" href="#module-SQLManagement" title="Permalink to this headline"></a></h1>
+  <section id="module-src.SQLManagement">
+<span id="sqlmanagement"></span><h1>SQLManagement<a class="headerlink" href="#module-src.SQLManagement" title="Permalink to this headline"></a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="SQLManagement.SQLManagement">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SQLManagement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#SQLManagement.SQLManagement" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.SQLManagement.SQLManagement">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SQLManagement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.SQLManagement.SQLManagement" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Handles all querries to SQL database using SQLAlchemy.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="SQLManagement.SQLManagement.getAllRows">
-<span class="sig-name descname"><span class="pre">getAllRows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="headerlink" href="#SQLManagement.SQLManagement.getAllRows" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="src.SQLManagement.SQLManagement.getAllRows">
+<span class="sig-name descname"><span class="pre">getAllRows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="headerlink" href="#src.SQLManagement.SQLManagement.getAllRows" title="Permalink to this definition"></a></dt>
+<dd><p>Returns all rows in database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List[Dictionary[str,str]] - List of rows converted to dictionaries</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="SQLManagement.SQLManagement.getAllValuesInColumn">
-<span class="sig-name descname"><span class="pre">getAllValuesInColumn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#SQLManagement.SQLManagement.getAllValuesInColumn" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="src.SQLManagement.SQLManagement.getAllValuesInColumn">
+<span class="sig-name descname"><span class="pre">getAllValuesInColumn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#src.SQLManagement.SQLManagement.getAllValuesInColumn" title="Permalink to this definition"></a></dt>
+<dd><p>Returns all values in a column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>column</strong> (<em>str</em>) – column to return from database</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="SQLManagement.SQLManagement.getRowsWithValue">
-<span class="sig-name descname"><span class="pre">getRowsWithValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxRows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#SQLManagement.SQLManagement.getRowsWithValue" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.SQLManagement.SQLManagement.getRowsWithValue">
+<span class="sig-name descname"><span class="pre">getRowsWithValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxRows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#src.SQLManagement.SQLManagement.getRowsWithValue" title="Permalink to this definition"></a></dt>
 <dd><p>Returns all rows in database where columns contain value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -109,14 +126,19 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="SQLManagement.createDb">
-<span class="sig-name descname"><span class="pre">createDb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imageInputPath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'images/raw'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#SQLManagement.createDb" title="Permalink to this definition"></a></dt>
-<dd><p>Create a SQLite 3 .db file</p>
+<dt class="sig sig-object py" id="src.SQLManagement.createDb">
+<span class="sig-name descname"><span class="pre">createDb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imageInputPath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'/Users/jeremycote/Projects/Python/ImageDatabase/images/raw'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.SQLManagement.createDb" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a SQLite 3 .db file. Drops existing tables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>imageInputPath</strong> (<em>str</em>) – absolute path to input directory</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="SQLManagement.formatDateTime">
-<span class="sig-name descname"><span class="pre">formatDateTime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#SQLManagement.formatDateTime" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.SQLManagement.formatDateTime">
+<span class="sig-name descname"><span class="pre">formatDateTime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#src.SQLManagement.formatDateTime" title="Permalink to this definition"></a></dt>
 <dd><p>Helper function. Converts Image exif datetime into Python datetime</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
