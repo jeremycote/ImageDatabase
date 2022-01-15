@@ -5,7 +5,7 @@
 
 Welcome to Image Database's documentation!
 ==========================================
-To get started, visit installation
+To get started, visit :doc:`installation`
 
 .. toctree::
    :maxdepth: 2

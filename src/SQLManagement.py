@@ -37,11 +37,9 @@ class SQLManagement:
 
         self.images = Table("images",self.metadata,autoload = True, autoload_with=self.engine)
 
-        print(self.images.columns.keys())
-
         Base.metadata.create_all(self.engine)
 
-    def getRowsWithValue(self, value: str, columns: List[str], maxRows: int = None) -> List[Dict[str,str]]:
+    def getRowsWithValue(self, value: str, columns: List[str], maxRows: int = None, strict: bool = False) -> List[Dict[str,str]]:
         """Returns all rows in database where columns contain value.
 
         Args:
@@ -57,7 +55,10 @@ class SQLManagement:
 
         queries = []
         for column in columns:
-            queries.append(self.images.c[column].contains(value))
+            if strict:
+                queries.append(self.images.c[column] == value)
+            else:
+                queries.append(self.images.c[column].contains(value))
 
         data = session.query(self.images).filter(or_(False, *queries))
 
@@ -113,7 +114,7 @@ def createDb(imageInputPath: str = "images/raw") -> None:
     sqlCommand += ")"
     cursor.execute(sqlCommand)
 
-    imagePathsAbs = os.path.abspath(os.path.join(os.path.abspath(os.path.join(path, os.pardir)), imageInputPath))
+    imagePathsAbs = os.path.join(os.path.abspath(os.path.join(path, os.pardir)), imageInputPath)
     print(imagePathsAbs)
 
     for file in tqdm(os.listdir(imagePathsAbs)):

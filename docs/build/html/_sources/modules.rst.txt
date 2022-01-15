@@ -5,5 +5,5 @@ ImageDatabase
    :maxdepth: 4
 
    main
-   database
-   recognition
+   SQLManagement
+   Img2VecResnet18

@@ -1,37 +1,46 @@
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 
-import json
-from numpy import e, integer
+from SQLManagement import SQLManagement, searchColumns
+from Img2VecResnet18 import Img2VecResnet18
 
-from sqlalchemy import sql
-
-from database.SQLManagement import SQLManagement, searchColumns
-
-from recognition.recognition import Recognition
+import os.path
 
 # create Flask app
-app = Flask(__name__)
+PATH_ROOT = os.path.abspath(os.path.join(os.path.abspath(__file__), "../../"))
+PATH_STATIC = os.path.join(PATH_ROOT, "static/")
+PATH_IMAGES = os.path.join(PATH_ROOT, "images/")
+PATH_IMAGES_CNN = os.path.join(PATH_IMAGES, "cnn")
+PATH_IMAGES_RAW = os.path.join(PATH_IMAGES, "raw")
+
+app = Flask(__name__, static_folder=PATH_STATIC)
 CORS(app)
 
 # generate sql management
 sqlManagement = SQLManagement(reload=False)
 
 # setup convolutional neural network
-recognizer: Recognition = Recognition(reload=False)
+recognizer: Img2VecResnet18 = Img2VecResnet18(reload=True)
 recognizer.updateSimilarityMatrix(k=10)
-
-# search
 
 @app.route('/')
 def index():
+    """
+    Returns index.html when Flask is queried at /
+    
+    Returns:
+        HTML file - dist/index.html
+    """
+
     print("called for index")
     return app.send_static_file("dist/index.html")
+
 
 @app.route("/api/search/<string:query>")
 def search(query: str):
     results = sqlManagement.getRowsWithValue(value=query, columns=searchColumns)
     return jsonify(results), 201 
+
 
 @app.route("/api/similar_to/<string:source>/", defaults={'accuracy': 70, 'max': 10})
 @app.route("/api/similar_to/<string:source>/<int:accuracy>/<int:max>")
@@ -45,7 +54,7 @@ def find_similar_to(source: str, accuracy: int, max: int):
         max (int): Maximum number of ImageEntity to return
 
     Returns:
-        list of ImageEntity as json.
+        JSON - {List[Dict[str,str]]} - list of sql rows as json.
 
     """
 
@@ -71,6 +80,7 @@ def find_similar_to(source: str, accuracy: int, max: int):
 
     return jsonify(similarImages), 201
 
+
 @app.route('/api/search/') # If no search term, serve all images 
 @app.route('/api/images')
 def get_images():
@@ -85,20 +95,22 @@ def get_images():
 
     return jsonify(sqlManagement.getAllRows()), 201
 
+
 @app.route('/<path>/')
 def redirect(path):
     '''Redirects calls to dist folder'''
     print("Redirecting " + path)
     return app.send_static_file("dist/" + path)
 
+
 @app.route('/images/<path:path>/')
 def redirect_images(path):
     '''Redirects images from images folder'''
     print("Redirecting " + path)
-    return send_from_directory("images/cnn", path)
+    return send_from_directory(PATH_IMAGES_CNN, path)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5050, debug=True)
 
 
 """

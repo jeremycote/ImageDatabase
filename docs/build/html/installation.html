@@ -39,7 +39,11 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#setup-run">Setup - Run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#updating-frontend">Updating frontend</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">ImageDatabase</a></li>
 </ul>
 
@@ -67,10 +71,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="id1">
-<h1>Installation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>To run server,</p>
-<p>Frontend</p>
+  <section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h1>
+<section id="setup-run">
+<h2>Setup - Run<a class="headerlink" href="#setup-run" title="Permalink to this headline"></a></h2>
+<p>You will need Python 3 (Project built with 3.8.10)</p>
+<ol class="arabic simple">
+<li><p>pip install -r requirements.txt</p></li>
+<li><p>python run main.py (You must run from project root directory)</p></li>
+</ol>
+</section>
+<section id="updating-frontend">
+<h2>Updating frontend<a class="headerlink" href="#updating-frontend" title="Permalink to this headline"></a></h2>
+<p>Important: Only do this if you want to make changes to frontend</p>
+<p>You will need node (Project built with 17.3.1)</p>
+<ol class="arabic simple">
+<li><p>cd frontend</p></li>
+<li><p>npm install</p></li>
+<li><p>npm run build</p></li>
+</ol>
+</section>
 </section>
 
 

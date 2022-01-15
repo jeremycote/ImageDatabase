@@ -1,5 +1,6 @@
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
+.pytest_cache/
 
 # Unit test / coverage reports
 htmlcov/
