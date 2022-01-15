@@ -1,3 +1,4 @@
+from fileinput import filename
 from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 
@@ -21,10 +22,9 @@ sqlManagement = SQLManagement(reload=True)
 
 # setup convolutional neural network
 recognizer: Img2VecResnet18 = Img2VecResnet18(reload=True)
-recognizer.updateSimilarityMatrix(k=10)
 
 @app.route('/')
-def index():
+def getIndex():
     """
     Returns index.html when Flask is queried at /
     
@@ -62,13 +62,16 @@ def find_similar_to(source: str, accuracy: int, max: int):
     
     # recognizer.updateSimilarityMatrix(k=max)
 
+    column = "filename"
     if source.isdigit():
-        filename = sqlManagement.getRowsWithValue(value=source, columns=["id"], maxRows=1)[0]["filename"]
-    else:
-        filename = sqlManagement.getRowsWithValue(value=source,  columns=["filename"], maxRows=1)[0]["filename"]
+        column = "id"
+    
+    results = sqlManagement.getRowsWithValue(value=source, columns=[column], maxRows=1)
+    
+    if len(results) == 0:
+        return source + " is not in database", 401
 
-    if not filename:
-        return source + " Not Found", 401
+    filename = results[0]["filename"]
 
     simImages, simValues = recognizer.getSimilarImages(filename)
 
