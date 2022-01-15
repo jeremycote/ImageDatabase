@@ -1,8 +1,8 @@
 from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 
-from SQLManagement import SQLManagement, searchColumns
-from Img2VecResnet18 import Img2VecResnet18
+from src.SQLManagement import SQLManagement, searchColumns
+from src.Img2VecResnet18 import Img2VecResnet18
 
 import os.path
 
@@ -17,7 +17,7 @@ app = Flask(__name__, static_folder=PATH_STATIC)
 CORS(app)
 
 # generate sql management
-sqlManagement = SQLManagement(reload=False)
+sqlManagement = SQLManagement(reload=True)
 
 # setup convolutional neural network
 recognizer: Img2VecResnet18 = Img2VecResnet18(reload=True)

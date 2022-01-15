@@ -123,6 +123,12 @@ def createDb(imageInputPath: str = "images/raw") -> None:
 
         rawExif = image._getexif()
 
+        info = [file]
+
+        piece1 = "INSERT INTO images (filename"
+        piece2 = ") VALUES (?"
+        piece3 = ")"
+
         if rawExif != None: 
             exif = {
                 ExifTags.TAGS[k]: v
@@ -130,24 +136,19 @@ def createDb(imageInputPath: str = "images/raw") -> None:
                 if k in ExifTags.TAGS
             }
 
-        info = [file]
+            if exif:
+                for attribute in exifAttributes:
+                    if attribute[1] in exif:
 
-        piece1 = "INSERT INTO images (filename"
-        piece2 = ") VALUES (?"
-        piece3 = ")"
+                        if attribute[1] == "DateTimeOriginal":
+                            # Need to convert to sql and python compatible format
+                            exif[attribute[1]] = formatDateTime(exif[attribute[1]])
 
-        if exif:
-            for attribute in exifAttributes:
-                if attribute[1] in exif:
+                        piece1 += ", " + attribute[0]
+                        piece2 += ", ?"
+                        # print(attribute[1],": ", exif[attribute[1]])
+                        info.append(exif[attribute[1]])
 
-                    if attribute[1] == "DateTimeOriginal":
-                        # Need to convert to sql and python compatible format
-                        exif[attribute[1]] = formatDateTime(exif[attribute[1]])
-
-                    piece1 += ", " + attribute[0]
-                    piece2 += ", ?"
-                    # print(attribute[1],": ", exif[attribute[1]])
-                    info.append(exif[attribute[1]])
         cursor.execute(piece1 + piece2 + piece3, info)
 
     connection.commit()
