@@ -5,7 +5,9 @@ ImageDatabase
     :alt: Documentation Status
 
 .. image:: https://github.com/jeremycote/ImageDatabase/actions/workflows/python-app.yml/badge.svg)](https://github.com/jeremycote/ImageDatabase/actions/workflows/python-app.yml
+    :target: https://github.com/jeremycote/ImageDatabase/actions/workflows/python-app.yml
     :alt: Tests status
+
 .. image:: https://img.shields.io/website-up-down-green-red/http/database-thoh6yxbsa-nn.a.run.app.svg
     :target: https://database-thoh6yxbsa-nn.a.run.app
     :alt: Demo Website Status
