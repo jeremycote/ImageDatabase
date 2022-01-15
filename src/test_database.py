@@ -1,4 +1,4 @@
-from src.SQLManagement import SQLManagement
+from SQLManagement import SQLManagement
 
 import pytest
 
