@@ -6,7 +6,8 @@ ImageDatabase
 
 ![Python application](https://github.com/<jeremycote>/<ImageDatabase>/actions/workflows/<python-app.yaml>/badge.svg)
 
+.. |Website database-thoh6yxbsa-nn.a.run.app| image:: https://img.shields.io/website-up-down-green-red/http/database-thoh6yxbsa-nn.a.run.app.svg
+   :target: https://database-thoh6yxbsa-nn.a.run.app
 
 Shopify Data Engineer application challenge
 
-https://database-thoh6yxbsa-nn.a.run.app
