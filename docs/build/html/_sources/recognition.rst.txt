@@ -1,8 +1,0 @@
-recognition
-===========
-
-.. toctree::
-   :maxdepth: 1
-
-   Img2VecResnet18
-   resize
