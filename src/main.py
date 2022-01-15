@@ -4,15 +4,9 @@ from flask_cors import CORS
 from src.SQLManagement import SQLManagement, searchColumns
 from src.Img2VecResnet18 import Img2VecResnet18
 
-import os.path
+from src.constants import PATH_STATIC, PATH_IMAGES_CNN, PATH_IMAGES_RAW
 
 # create Flask app
-PATH_ROOT = os.path.abspath(os.path.join(os.path.abspath(__file__), "../../"))
-PATH_STATIC = os.path.join(PATH_ROOT, "static/")
-PATH_IMAGES = os.path.join(PATH_ROOT, "images/")
-PATH_IMAGES_CNN = os.path.join(PATH_IMAGES, "cnn")
-PATH_IMAGES_RAW = os.path.join(PATH_IMAGES, "raw")
-
 app = Flask(__name__, static_folder=PATH_STATIC)
 CORS(app)
 

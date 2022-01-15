@@ -11,11 +11,19 @@ from numpy.testing import assert_almost_equal
 
 from typing import List
 
+from constants import PATH_IMAGES_CNN, PATH_IMAGES_RAW
+
 class Img2VecResnet18():
     """
     Class responsible for image recognition.
     """
     def __init__(self, reload=False):
+        """
+        Initialize class.
+
+        Args:
+            reload (bool): recompressed raw images for recognition.
+        """
         self.device = torch.device("cpu")
         self.numberFeatures = 512
         self.modelName = "resnet-18"
@@ -26,12 +34,11 @@ class Img2VecResnet18():
         self.normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 
         self.allVectors = {}
-
-        root = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir))
-        self.inputDir = os.path.join(root, "images/cnn")
+        
+        self.inputDir = PATH_IMAGES_CNN
 
         if reload:
-            transformImages("images/raw", "images/cnn")
+            transformImages()
 
         self.updateSimilarityMatrix()
 
@@ -42,7 +49,16 @@ class Img2VecResnet18():
         
         return cnnModel, layer
     
-    def getVec(self, img):
+    def getVec(self, img: Image):
+        """
+        Converts passed image into a numpy vector
+
+        Args:
+            img (Image): pillow image to convert
+        
+        Returns:
+            Tensor as Numpy array
+        """
         image = self.normalize(self.toTensor(img)).unsqueeze(0).to(self.device)
         embedding = torch.zeros(1, self.numberFeatures, 1, 1)
         def copyData(m, i, o): embedding.copy_(o.data)
@@ -52,6 +68,15 @@ class Img2VecResnet18():
         return embedding.numpy()[0, :, 0, 0]
 
     def getSimilarityMatrix(self, vectors):
+        """
+        Create pandas DataFrame of simularities using passed vectors
+
+        Args:
+            vectors (Numpy.Array): Vectors to parse simularities
+
+        Returns:
+            Pandas.DataFrame
+        """
         v = np.array(list(vectors.values())).T
         sim = np.inner(v.T, v.T) / ((np.linalg.norm(v, axis=0).reshape(-1,1)) * ((np.linalg.norm(v, axis=0).reshape(-1,1)).T))
         keys = list(vectors.keys())
@@ -60,6 +85,12 @@ class Img2VecResnet18():
         return matrix
 
     def updateSimilarityMatrix(self, k=10):
+        """
+        Updates self.SimilarityMatrix, self.similarNames, self.similarValues and self.k using parameter k.
+
+        Args:
+            k (int): Number of recommendations to present when querrying for simularities
+        """
         
         self.k = k
     
@@ -80,10 +111,18 @@ class Img2VecResnet18():
             self.similarValues.iloc[j, :] = kSimilar.values
 
     def getSimilarImages(self, image):
+        """
+        Gets self.k most similar images from self.similarNames.
+
+        Args:
+            image (str): filename of image for which recommendations are desired
+
+        """
         if image in set(self.similarNames.index):
             imgs = list(self.similarNames.loc[image, :])
             vals = list(self.similarValues.loc[image, :])
             
+            # Don't recommend passed image
             if image in imgs:
                 assert_almost_equal(max(vals), 1, decimal = 5)
                 imgs.remove(image)
@@ -94,7 +133,7 @@ class Img2VecResnet18():
             print("'{}' Unknown image".format(image))
 
 
-def transformImages(inputDir, outputDir, filenames: List[str] = None):
+def transformImages(inputDir = PATH_IMAGES_RAW, outputDir = PATH_IMAGES_CNN, filenames: List[str] = None):
     """
     Process Images inside inputDir for use with neural network.
     Resized images are outputed to the outputDir.
@@ -103,23 +142,19 @@ def transformImages(inputDir, outputDir, filenames: List[str] = None):
     """
 
     transformationForCNNInput = transforms.Compose([transforms.Resize((224,224))])
-    
-    root = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir))
-    inputPath = os.path.join(root, inputDir)
-    outputPath = os.path.join(root, outputDir)
 
     if filenames == None:
-        filenames = os.listdir(inputPath)
+        filenames = os.listdir(inputDir)
 
-    if not os.path.exists(outputPath):
-        os.makedirs(outputPath)
+    if not os.path.exists(outputDir):
+        os.makedirs(outputDir)
 
     for imageName in filenames:
-        I = Image.open(os.path.join(inputPath, imageName))
+        I = Image.open(os.path.join(inputDir, imageName))
         newI = transformationForCNNInput(I)
 
         if "exif" in I.info:
             exif = I.info['exif']
-            newI.save(os.path.join(outputPath, imageName), exif=exif)
+            newI.save(os.path.join(outputDir, imageName), exif=exif)
         else:
-            newI.save(os.path.join(outputPath, imageName))
+            newI.save(os.path.join(outputDir, imageName))

@@ -12,6 +12,8 @@ from typing import List, Dict
 
 from tqdm import tqdm
 
+from src.constants import PATH_IMAGES_RAW, PATH_DB
+
 exifAttributes = [
     ("make", "Make", "TEXT"), ("model", "Model", "TEXT"), ("date", "DateTimeOriginal", "TEXT"), ("width", "ExifImageWidth", "INTEGER"), ("height", "ExifImageHeight", "INTEGER"),
     ("processingSoftware", "ProcessingSoftware", "TEXT"), ("documentName", "DocumentName", "TEXT"), ("imageDescription", "ImageDescription", "TEXT"), ("orientation", "Orientation", "INTEGER"), ("artist", "Artist", "TEXT"),
@@ -24,8 +26,17 @@ searchColumns = ["filename"] + [attribute[0] for attribute in exifAttributes]
 Base = declarative_base()
 
 class SQLManagement:
-    def __init__(self, reload: bool = False) -> None:
+    """
+    Handles all querries to SQL database using SQLAlchemy.
+    """
 
+    def __init__(self, reload: bool = False) -> None:
+        """
+        Initialize SQLManagement class.
+
+        Args:
+            reload (bool): Recreates database using files at PATH_IMAGES_RAW
+        """
         if reload:
             createDb()
 
@@ -72,6 +83,16 @@ class SQLManagement:
         return [dict(d) for d in data]
 
     def getAllValuesInColumn(self, column: str) -> List[str]:
+        """Returns all values in a column.
+
+        Args:
+            column (str): column to return from database
+
+        Returns:
+            List[str]
+
+        """
+
         session = self.Session()
 
         values = []
@@ -82,6 +103,12 @@ class SQLManagement:
         return values
 
     def getAllRows(self) -> List:
+        """Returns all rows in database.
+
+        Returns:
+            List[Dictionary[str,str]] - List of rows converted to dictionaries
+
+        """
         session = self.Session()
 
         rows = session.query(self.images).all()
@@ -90,13 +117,15 @@ class SQLManagement:
 
         return [dict(row) for row in rows]
 
-def createDb(imageInputPath: str = "images/raw") -> None:
-    """Create a SQLite 3 .db file"""
+def createDb(imageInputPath: str = PATH_IMAGES_RAW) -> None:
+    """
+    Creates a SQLite 3 .db file. Drops existing tables.
 
-    path = os.path.dirname(os.path.abspath(__file__))
-    db = os.path.join(path, 'database.db')
+    Args:
+        imageInputPath (str): absolute path to input directory
+    """
 
-    connection = sqlite3.connect(db)
+    connection = sqlite3.connect(PATH_DB)
     cursor = connection.cursor()
 
     cursor.execute('''
@@ -114,12 +143,9 @@ def createDb(imageInputPath: str = "images/raw") -> None:
     sqlCommand += ")"
     cursor.execute(sqlCommand)
 
-    imagePathsAbs = os.path.join(os.path.abspath(os.path.join(path, os.pardir)), imageInputPath)
-    print(imagePathsAbs)
-
-    for file in tqdm(os.listdir(imagePathsAbs)):
+    for file in tqdm(os.listdir(imageInputPath)):
         # cursor.execute("INSERT INTO images (filename) VALUES (?)", (file,))
-        image = Image.open(os.path.join(imagePathsAbs, file))
+        image = Image.open(os.path.join(imageInputPath, file))
 
         rawExif = image._getexif()
 
