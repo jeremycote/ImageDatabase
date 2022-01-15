@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ImageEntityApiService } from './imageEntity/imageEntity-api.service';
 import { ImageDisplayComponent } from './image-display/image-display.component';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
-
+import { MatIconModule} from '@angular/material/icon'
 
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -23,7 +23,8 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     HttpClientModule,
     NgxSliderModule,
-    FormsModule
+    FormsModule,
+    MatIconModule
   ],
   providers: [
     ImageEntityApiService

@@ -1,22 +1,29 @@
-<div style="text-align:center">
-  <div *ngIf="imageToShow != null">
-    <h1>Recommendations for {{imageToShow.filename}}</h1>
-  </div>
-  <div *ngIf="imageToShow == null">
-    <h1>Images</h1>
-  </div>
-</div>
-<div class="box div">
-  <button (click)="getAllImages()">Get All Images</button>
-  <a class="header-text">Max Recommendations:</a>
-  <input [value]="maxRecommendations" type="number" (change)="maxRecommendationsChanged()">
-  <a class="header-text">Recommendation Accuracy:</a>
-  <ngx-slider [(value)]="accuracy" [options]="accuracyOptions" (userChangeEnd)="accuracyEvent()"></ngx-slider>
-  <input type="search" (change)="searchChanged()" [(ngModel)]="search" id="q" name="q">
-</div>
+  <div class="topnav">
+    <a (click)="getAllImages()"><mat-icon>home</mat-icon></a>
 
-<body>
-  <div class="grid-container" *ngFor="let image of imagesList">
-    <img (click)="clickedImage(image)" style="height: 20vh; aspect-ratio: 1;" src={{getPath(image.filename)}}>
+    <div style="text-align:center">
+      <div *ngIf="imageToShow != null">
+        <h1>Recommendations for {{imageToShow.filename}}</h1>
+      </div>
+      <div *ngIf="imageToShow == null">
+        <h1>Images</h1>
+      </div>
+    </div>
+
+    <input type="text" (change)="searchChanged()" [(ngModel)]="search" id="q" name="q">
   </div>
-</body>
+
+  <div class="grid-container" *ngIf="imageToShow != null">
+    <!--
+    <a>Max Recommendations:</a>
+    <input [value]="maxRecommendations" type="number" (change)="maxRecommendationsChanged()">
+    -->
+    <a>Recommendation Accuracy:</a>
+    <ngx-slider [(value)]="accuracy" [options]="accuracyOptions" (userChangeEnd)="accuracyEvent()"></ngx-slider>
+  </div>
+
+  <body>
+    <div class="grid-container" *ngFor="let image of imagesList">
+      <img (click)="clickedImage(image)" style="height: 20vh; aspect-ratio: 1;" src={{getPath(image.filename)}}>
+    </div>
+  </body>

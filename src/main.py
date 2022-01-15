@@ -1,4 +1,3 @@
-from fileinput import filename
 from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 
@@ -37,15 +36,28 @@ def getIndex():
 
 
 @app.route("/api/search/<string:query>")
-def search(query: str):
-    results = sqlManagement.getRowsWithValue(value=query, columns=searchColumns)
+def search(query: str, columns=searchColumns):
+    """
+    Returns SQL rows that contain query in passed columns
+    Access using /api/search/<string:query>
+    
+    Args:
+        query (str): value to search in database
+        columns (List[str]): database columns to search inside. Defaults to searchColumns global variable.
+
+    Returns:
+        JSON - {List[Dict[str,str]]} - list of sql rows as json.
+    """
+
+    results = sqlManagement.getRowsWithValue(value=query, columns=columns)
     return jsonify(results), 201 
 
 
 @app.route("/api/similar_to/<string:source>/", defaults={'accuracy': 70, 'max': 10})
 @app.route("/api/similar_to/<string:source>/<int:accuracy>/<int:max>")
 def find_similar_to(source: str, accuracy: int, max: int):
-    """Returns similar images to source in reponse to api GET request.
+    """
+    Returns similar images to source in reponse to api GET request.
     Access using /api/similar_to/<string:source>/<int:accuracy>/<int:max>
 
     Args:
@@ -87,11 +99,12 @@ def find_similar_to(source: str, accuracy: int, max: int):
 @app.route('/api/search/') # If no search term, serve all images 
 @app.route('/api/images')
 def get_images():
-    """Returns all images in database.
+    """
+    Returns all rows in database.
     Access using /api/images
 
     Returns:
-        List of dictionaries as JSON.
+        JSON - {List[Dict[str,str]]} - list of sql rows as json.
 
     """
     print("Getting images")
@@ -101,26 +114,42 @@ def get_images():
 
 @app.route('/<path>/')
 def redirect(path):
-    '''Redirects calls to dist folder'''
+    """
+    Redirects calls to dist folder
+    Args:
+        path (str): path to file inside dist folder
+
+    Returns:
+        file at path
+    """
     print("Redirecting " + path)
     return app.send_static_file("dist/" + path)
 
 
-@app.route('/images/<path:path>/')
-def redirect_images(path):
-    '''Redirects images from images folder'''
-    print("Redirecting " + path)
-    return send_from_directory(PATH_IMAGES_CNN, path)
+@app.route('/images/<string:quality>/<string:filename>/')
+def redirect_images(quality: str, filename: str):
+    """
+    Returns Image with filename
+    
+    Args:
+        quality (str): raw returns original, else return compressed
+        filename (str): image filename
+
+    Returns:
+        Image file using send_from_directory
+    """
+    print("Redirecting " + filename)
+
+    path: str
+    if quality == "raw":
+        path = PATH_IMAGES_RAW
+    else:
+        path = PATH_IMAGES_CNN
+    
+    return send_from_directory(path, filename)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5050, debug=True)
-
-
-"""
-1. Tests
-2. Doc
-3. Cloud Provider
-"""
 
 # @app.route('/api/images', methods=['POST'])
 # def add_image():
