@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription, Observable, map } from 'rxjs';
+import { Subscription, timestamp } from 'rxjs';
 import { ImageEntity } from '../imageEntity/imageEntity.model';
 import { ImageEntityApiService } from '../imageEntity/imageEntity-api.service';
 import { HttpClient } from '@angular/common/http';
 import { Options } from '@angular-slider/ngx-slider';
-
 @Component({
   selector: 'app-image-display',
   templateUrl: './image-display.component.html',
@@ -23,6 +22,12 @@ export class ImageDisplayComponent implements OnInit {
     ceil: 100
   };
 
+  useRaw = false
+
+  qualityChanged(){
+    console.log("Quality field changed")
+  }
+
   search: string = ""
   searchChanged(){
     console.log("Search field changed to " + this.search)
@@ -30,7 +35,11 @@ export class ImageDisplayComponent implements OnInit {
   }
 
   getPath(file: string): string{
-    return "images/" + file;
+    if (this.useRaw){
+      return "images/raw/" + file;
+    } else {
+      return "images/cnn/" + file;
+    }
   }
 
   accuracyEvent() {

@@ -24,9 +24,16 @@ class Img2VecResnet18():
         Args:
             reload (bool): recompressed raw images for recognition.
         """
+
+        #: Torch device to run neural network
         self.device = torch.device("cpu")
+
+        #: Number of features to extract from images
         self.numberFeatures = 512
+
+        #: Model to use for similarity
         self.modelName = "resnet-18"
+
         self.model, self.featureLayer = self.getFeatureLayer()
         self.model = self.model.to(self.device)
         self.model.eval()
@@ -35,6 +42,7 @@ class Img2VecResnet18():
 
         self.allVectors = {}
         
+        #: Input Directory for building simularity matrix
         self.inputDir = PATH_IMAGES_CNN
 
         if reload:
@@ -43,6 +51,9 @@ class Img2VecResnet18():
         self.updateSimilarityMatrix()
 
     def getFeatureLayer(self):
+        """
+        Gets avgpool layer from resnet18.
+        """
         cnnModel = models.resnet18(pretrained=True)
         layer = cnnModel._modules.get('avgpool')
         self.layer_output_size = 512
@@ -84,7 +95,7 @@ class Img2VecResnet18():
         
         return matrix
 
-    def updateSimilarityMatrix(self, k=10):
+    def updateSimilarityMatrix(self, k: int = 10):
         """
         Updates self.SimilarityMatrix, self.similarNames, self.similarValues and self.k using parameter k.
 
@@ -110,7 +121,7 @@ class Img2VecResnet18():
             self.similarNames.iloc[j, :] = list(kSimilar.index)
             self.similarValues.iloc[j, :] = kSimilar.values
 
-    def getSimilarImages(self, image):
+    def getSimilarImages(self, image: str):
         """
         Gets self.k most similar images from self.similarNames.
 
@@ -138,7 +149,7 @@ def transformImages(inputDir = PATH_IMAGES_RAW, outputDir = PATH_IMAGES_CNN, fil
     Process Images inside inputDir for use with neural network.
     Resized images are outputed to the outputDir.
 
-    *Paths are relative to the project root directory.
+    *Paths are absolute
     """
 
     transformationForCNNInput = transforms.Compose([transforms.Resize((224,224))])

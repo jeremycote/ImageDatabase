@@ -1,16 +1,18 @@
   <div class="topnav">
     <a (click)="getAllImages()"><mat-icon>home</mat-icon></a>
+    <a>Use High Quality: </a>
+    <a>
+      <label class="switch">
+        <input (change)="qualityChanged()" [(ngModel)]="useRaw" type="checkbox">
+        <span class="slider round"></span>
+      </label>
+    </a>
+    
 
-    <div style="text-align:center">
-      <div *ngIf="imageToShow != null">
-        <h1>Recommendations for {{imageToShow.filename}}</h1>
-      </div>
-      <div *ngIf="imageToShow == null">
-        <h1>Images</h1>
-      </div>
-    </div>
+    <a *ngIf="imageToShow != null">Recommendations for {{imageToShow.filename}}</a>
+    <a *ngIf="imageToShow == null">Images</a>
 
-    <input type="text" (change)="searchChanged()" [(ngModel)]="search" id="q" name="q">
+    <input class="search" type="text" (change)="searchChanged()" [(ngModel)]="search" id="q" name="q">
   </div>
 
   <div class="grid-container" *ngIf="imageToShow != null">
@@ -25,5 +27,8 @@
   <body>
     <div class="grid-container" *ngFor="let image of imagesList">
       <img (click)="clickedImage(image)" style="height: 20vh; aspect-ratio: 1;" src={{getPath(image.filename)}}>
+    </div>
+    <div *ngIf="imagesList == []">
+      Oops. No images were found.
     </div>
   </body>

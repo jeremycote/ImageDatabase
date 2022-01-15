@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, send_from_directory
+from flask import Flask, jsonify, send_from_directory, request
 from flask_cors import CORS
 
 from src.SQLManagement import SQLManagement, searchColumns
@@ -6,7 +6,7 @@ from src.Img2VecResnet18 import Img2VecResnet18
 
 from src.constants import PATH_STATIC, PATH_IMAGES_CNN, PATH_IMAGES_RAW
 
-# create Flask app
+# Create Flask app
 app = Flask(__name__, static_folder=PATH_STATIC)
 CORS(app)
 
@@ -141,6 +141,12 @@ def redirect_images(quality: str, filename: str):
         path = PATH_IMAGES_CNN
     
     return send_from_directory(path, filename)
+
+@app.route("/upload", methods=["POST"])
+def upload():
+    uploaded_files = request.files.getlist("file[]")
+    print(uploaded_files)
+    return ""
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5050, debug=True)
