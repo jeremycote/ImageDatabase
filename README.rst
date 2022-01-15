@@ -1,7 +1,7 @@
 ImageDatabase
 =============
 .. image:: https://readthedocs.org/projects/jerrytheberry-imagedatabase/badge/?version=latest
-    :target: https://jerrytheberry-imagedatabase.readthedocs.io/en/latest/?badge=latest
+    :target: https://jerrytheberry-imagedatabase.readthedocs.io/en/latest/?badge/?version=latest
     :alt: Documentation Status
 
 .. image:: https://github.com/jeremycote/ImageDatabase/actions/workflows/python-app.yml/badge.svg)](https://github.com/jeremycote/ImageDatabase/actions/workflows/python-app.yml
