@@ -111,6 +111,9 @@ def transformImages(inputDir, outputDir, filenames: List[str] = None):
     if filenames == None:
         filenames = os.listdir(inputPath)
 
+    if not os.path.exists(outputPath):
+        os.makedirs(outputPath)
+
     for imageName in filenames:
         I = Image.open(os.path.join(inputPath, imageName))
         newI = transformationForCNNInput(I)
