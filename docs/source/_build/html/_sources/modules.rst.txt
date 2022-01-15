@@ -4,4 +4,6 @@ ImageDatabase
 .. toctree::
    :maxdepth: 4
 
-   database.SQLManagement
+   main
+   SQLManagement
+   Img2VecResnet18
