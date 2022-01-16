@@ -2,7 +2,7 @@ from typing import List
 import pytest
 from src.Img2VecResnet18 import Img2VecResnet18
 
-recognizer = Img2VecResnet18()
+recognizer = Img2VecResnet18(reload=True)
 
 @pytest.mark.parametrize("filename, expected", [
     ("Cake.jpg", ["Cake copy.jpg"]),
