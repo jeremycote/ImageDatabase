@@ -8,3 +8,4 @@ ImageDatabase
    SQLManagement
    Img2VecResnet18
    constants
+   tests
