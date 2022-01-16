@@ -81,3 +81,10 @@ To get started, you will need `Node JS <https://nodejs.org/en/>`_.
 .. code-block:: shell
 
        npm run build
+
+3. (Only required on Windows) Move build
+
+.. code-block:: shell
+
+       rmdir ../static/dist
+       mv dist ../static/dist
