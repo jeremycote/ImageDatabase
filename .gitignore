@@ -48,7 +48,7 @@ docs/build/
 .history/*
 
 # misc
-.angular/cache
+*/.angular/cache
 .sass-cache
 connect.lock
 /coverage
