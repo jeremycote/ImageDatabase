@@ -11,7 +11,7 @@ Docker Setup
 .. code-block:: shell
 
        docker build -t "image-database:Dockerfile" .
-       docker run --name ImageDatabase -d -p 5000:5000 image-database:Dockerfile
+       docker run --env PORT=5000 --name ImageDatabase -d -p 5000:5000 image-database:Dockerfile
 
 Manual/Dev Setup
 ------------
