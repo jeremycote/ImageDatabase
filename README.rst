@@ -12,8 +12,8 @@ ImageDatabase
     :target: https://github.com/jeremycote/ImageDatabase/actions/workflows/node.js.yml   
     :alt: Node.js Tests status
 
-.. image:: https://img.shields.io/website-up-down-green-red/http/database-thoh6yxbsa-nn.a.run.app.svg
-    :target: https://database-thoh6yxbsa-nn.a.run.app
+.. image:: https://img.shields.io/website-up-down-green-red/https/imagedatabase-thoh6yxbsa-uc.a.run.app/.svg
+    :target: https://imagedatabase-thoh6yxbsa-uc.a.run.app/
     :alt: Demo Website Status
 
 
