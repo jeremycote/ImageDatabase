@@ -12,15 +12,15 @@ RUN npm -v
 # Allow statements and log messages to immediately appear in the Knative logs
 ENV PYTHONUNBUFFERED True
 
-COPY . ./
+COPY . ./app
 
-WORKDIR "/frontend"
+WORKDIR "/app/frontend"
 RUN npm install
 RUN npm run build
 
-WORKDIR "/"
+WORKDIR "/app"
 
-RUN rm -r /frontend
+RUN rm -r /app/frontend
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Run the web service on container startup. Here we use the gunicorn
