@@ -153,7 +153,7 @@ def upload():
     return ""
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5050, debug=True)
+    app.run(host="0.0.0.0", port=5050, debug=True, ssl_context='adhoc')
 
 # @app.route('/api/images', methods=['POST'])
 # def add_image():

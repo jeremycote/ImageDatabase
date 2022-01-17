@@ -2,6 +2,7 @@ Installation
 ============ 
 
 To run ImageDatabase, there are two options.
+
 1. Run as Docker container (Recommended).
 2. Setup server manually ().
 

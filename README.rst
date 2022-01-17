@@ -18,3 +18,10 @@ ImageDatabase
 
 
 Shopify Data Engineer application challenge
+
+To get started, visit the `Install and Setup Guide <https://jerrytheberry-imagedatabase.readthedocs.io/en/latest/installation.html>`_.
+
+Links
+-----
+Documentation: https://jerrytheberry-imagedatabase.readthedocs.io/en/latest/index.html
+Live Demo: https://imagedatabase-thoh6yxbsa-uc.a.run.app/
