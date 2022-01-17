@@ -152,6 +152,10 @@ def upload():
     print(uploaded_files)
     return ""
 
+@app.route("/.well-known/acme-challenge/ed1byw5X5f245m6tJKulMaW9KpzGEXzqo5KO6S_ugno")
+def challenge():
+    return "RxIwgFRsbrvEm6TwmnipBX5Aa4_pUpqqgrovhAtufOE.U41CYWovSh8hUHp-qvuaPupwrqt0D5eJHglnaCHluB8"
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5050, debug=True)
 
