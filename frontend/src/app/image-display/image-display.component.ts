@@ -16,7 +16,7 @@ export class ImageDisplayComponent implements OnInit {
 
   imageToShow: any = null;
 
-  accuracy: number = 70;
+  accuracy: number = 60;
   accuracyOptions: Options = {
     floor: 0,
     ceil: 100

@@ -275,7 +275,4 @@ input:checked + .slider:before {
   align-content: center;
   text-align: center;
 }
-.images-title a {
-  font-size: larger;
-}
 

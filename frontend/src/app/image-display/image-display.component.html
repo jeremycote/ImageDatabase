@@ -23,9 +23,9 @@
 
   <!-- Grid Title-->
   <div class="images-title">
-    <a *ngIf="imageToShow == null && search == ''">Images</a>
-    <a *ngIf="imageToShow == null && search != ''">Search results for {{search}}</a>
-    <a *ngIf="imageToShow != null">Recommendations for {{imageToShow.filename}}</a>
+    <h2 *ngIf="imageToShow == null && search == ''">Images</h2>
+    <h2 *ngIf="imageToShow == null && search != ''">Search results for {{search}}</h2>
+    <h2 *ngIf="imageToShow != null">Recommendations for {{imageToShow.filename}}</h2>
   </div>
 
   <div class="grid-container" *ngIf="imageToShow != null">
