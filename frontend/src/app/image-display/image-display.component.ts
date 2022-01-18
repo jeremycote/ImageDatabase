@@ -24,14 +24,18 @@ export class ImageDisplayComponent implements OnInit {
 
   useRaw = false
 
-  qualityChanged(){
-    console.log("Quality field changed")
+  qualityChanged(value: boolean){
+    this.useRaw = value;
+    console.log("Quality field changed to " + this.useRaw)
   }
 
   search: string = ""
-  searchChanged(){
-    console.log("Search field changed to " + this.search)
-    this.searchImages(this.search)
+  searchChanged(value: string){
+    console.log("Search field changed to " + value)
+    this.searchImages(value)
+    
+    this.imageToShow = null;
+    this.search = value;
   }
 
   getPath(file: string): string{
@@ -65,7 +69,9 @@ export class ImageDisplayComponent implements OnInit {
       },
       console.error
     );
+
     this.imageToShow = null;
+    this.search = "";
   }
 
   getImagesLike(image: ImageEntity, accuracy: number, max: number){
@@ -90,8 +96,10 @@ export class ImageDisplayComponent implements OnInit {
 
   clickedImage(image: ImageEntity){
     console.log("Clicked on image: " + image.filename);
-    this.imageToShow = image;
     this.getImagesLike(image, this.accuracy, this.maxRecommendations);
+
+    this.imageToShow = image;
+    this.search = "";
   }
   
   ngOnInit() {

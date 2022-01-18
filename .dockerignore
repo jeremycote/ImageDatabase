@@ -8,8 +8,3 @@ static/dist/
 venv/
 .gitignore
 pyproject.toml
-bootstrap.sh
-DevServer.sh
-DevServerWin.ps1
-ProdServer.sh
-Dockerfile.old

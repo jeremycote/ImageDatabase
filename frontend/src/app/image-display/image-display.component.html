@@ -1,18 +1,31 @@
   <div class="topnav">
     <a (click)="getAllImages()"><mat-icon>home</mat-icon></a>
-    <a>Use High Quality: </a>
-    <a>
-      <label class="switch">
-        <input (change)="qualityChanged()" [(ngModel)]="useRaw" type="checkbox">
-        <span class="slider round"></span>
+    <div>
+      <b class="rocker-label">
+        Image Quality:
+      </b>
+      <label class="rocker rocker-small">
+        <input (ngModelChange)="qualityChanged($event)" [(ngModel)]="useRaw" type="checkbox">
+        <span class="switch-left">HQ</span>
+        <span class="switch-right">LQ</span>
       </label>
-    </a>
-    
+    </div>
+    <b class="rocker-label">
+      Click on an image for AI recommendations.
+    </b>
+  </div>
 
+  <!-- Searchbar -->
+  <div style="margin-top: 20px; margin-bottom: 20px;" class="bar">
+    <input class="searchbar" type="text" (ngModelChange)="searchChanged($event)" [(ngModel)]="search" title="Metadata Search">
+    <a> <mat-icon class="voice">search</mat-icon></a>
+  </div>
+
+  <!-- Grid Title-->
+  <div class="images-title">
+    <a *ngIf="imageToShow == null && search == ''">Images</a>
+    <a *ngIf="imageToShow == null && search != ''">Search results for {{search}}</a>
     <a *ngIf="imageToShow != null">Recommendations for {{imageToShow.filename}}</a>
-    <a *ngIf="imageToShow == null">Images</a>
-
-    <input class="search" type="text" (change)="searchChanged()" [(ngModel)]="search" id="q" name="q">
   </div>
 
   <div class="grid-container" *ngIf="imageToShow != null">

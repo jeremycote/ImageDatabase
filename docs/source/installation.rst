@@ -10,9 +10,16 @@ Docker Setup
 ------------
 
 .. code-block:: shell
+    :caption: If ssl is handled externally. Ex: Google Cloud Run.
 
        docker build -t "image-database:Dockerfile" .
        docker run --env PORT=5000 --name ImageDatabase -d -p 5000:5000 image-database:Dockerfile
+
+.. code-block:: shell
+    :caption: For standalone Container.
+
+       docker build -t "image-database:Dockerfile" .
+       docker run --env PORT=5000 --name ImageDatabase -d -p 5000:5000 image-database:SelfSignDockerfile
 
 Manual/Dev Setup
 ------------
@@ -57,21 +64,16 @@ To get started, you will need `Python3 <https://www.python.org/downloads/>`_.
        rmdir ../static/dist
        mv dist ../static/dist
 
-5. Production server is only available on UNIX. Follow instructions below for your desired environment.
-
-.. code-block:: shell
-    :caption: Production Server using UNIX
-
-       chmod +x ProdServer.sh
-       ./ProdServer.sh
+5. Development server
 
 .. code-block:: shell
     :caption: Development Server using UNIX
 
-       chmod +x ./DevServer.sh
-       ./DevServer.sh
+       source venv/bin/activate
+       python app/main
 
 .. code-block:: shell
-    :caption: Development Server using windows
+    :caption: Development Server using Windows
 
-       .\DevServerWin.ps1
+       venv/Scripts/activate
+       python app/main
