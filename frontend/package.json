@@ -4,9 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "prebuild": "rm -r ../static/dist",
     "build": "ng build",
-    "postbuild": "mv dist ../static/dist",
+    "postbuild": "rm -rf ../static/dist; mv dist ../static/dist",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
