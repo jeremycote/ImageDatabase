@@ -2,8 +2,6 @@
 # https://hub.docker.com/_/python
 FROM python:3.9-slim
 
-ARG generateSSL
-
 RUN apt-get update
 RUN apt-get install -y curl
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash

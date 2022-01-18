@@ -52,7 +52,7 @@ class Img2VecResnet18():
 
     def getFeatureLayer(self):
         """
-        Gets avgpool layer from resnet18.
+        Gets avgpool layer from `resnet18 <https://pytorch.org/hub/pytorch_vision_resnet/>`_ .
         """
         cnnModel = models.resnet18(pretrained=True)
         layer = cnnModel._modules.get('avgpool')

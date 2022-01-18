@@ -12,12 +12,16 @@ Docker Setup
 .. code-block:: shell
     :caption: If ssl is handled externally. Ex: Google Cloud Run.
 
+       git clone https://github.com/jeremycote/ImageDatabase.git
+       cd ImageDatabase
        docker build -t "image-database:Dockerfile" .
        docker run --env PORT=5000 --name ImageDatabase -d -p 5000:5000 image-database:Dockerfile
 
 .. code-block:: shell
     :caption: For standalone Container.
 
+       git clone https://github.com/jeremycote/ImageDatabase.git
+       cd ImageDatabase
        docker build -t "image-database:Dockerfile" .
        docker run --env PORT=5000 --name ImageDatabase -d -p 5000:5000 image-database:SelfSignDockerfile
 
