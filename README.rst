@@ -23,7 +23,7 @@ Shopify Data Engineer application challenge
 
 ImageDatabase has two methods for finding images: a metadata search and recommendations for similar looking images. The metadata search looks through an SQL database created using the `EXIF <https://en.wikipedia.org/wiki/Exif>`_ data and filename of each image file in the PATH_IMAGES_RAW directory. The recommendations for similar looking images are generated using `resnet18 <https://pytorch.org/hub/pytorch_vision_resnet/>`_, a library for Deep residual networks pre-trained on ImageNet.
 
-To get started, visit the :doc:`Install and Setup Guide <installation>`.
+To get started, visit the `Install and Setup Guide <https://jerrytheberry-imagedatabase.readthedocs.io/en/latest/installation.html>`_.
 
 Links
 -----
