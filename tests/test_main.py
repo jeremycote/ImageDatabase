@@ -11,7 +11,14 @@ import src.main as main
     ("trees0.jpg", ("trees1.jpg", "trees2.jpg", "trees3.jpg", "trees4.jpg")),
 ])
 def test_FindSimilarTo(value: str, expected: Tuple[str]):
-    
+    """
+    Test flask image recommendation api.
+
+    Args:
+        filename (str): filename of source image.
+        expected (List[str]): expected recommendations. Every element must be recommended to pass.
+    """
+
     response = main.find_similar_to(value, 60, 10)
     recommendations = json.loads(response[0])
 
