@@ -26,6 +26,8 @@ To get started, you will need `Docker <https://www.docker.com/get-started>`_.
        docker build -t "image-database:Dockerfile" .
        docker run --env PORT=5050 --name ImageDatabase -d -p 5050:5050 image-database:Dockerfile
 
+You can access the webserver using https://localhost:5050
+
 Manual/Dev Setup
 ----------------
 To get started, you will need `Python3 <https://www.python.org/downloads/>`_ and `Node JS <https://nodejs.org/en/>`_.
@@ -81,3 +83,5 @@ To get started, you will need `Python3 <https://www.python.org/downloads/>`_ and
 .. code-block:: shell
 
        python app/main
+
+You can access the webserver using https://localhost:5050
