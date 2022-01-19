@@ -9,7 +9,7 @@ import pytest
 def test_SQLManagement_getAllRows():
     """
     SQLManagement creates database using all images in PATH_IMAGES_RAW.
-    Thus, getAllRows should return a list with the same length as the nummber of images in PATH_IMAGES_RAW.
+    Thus, getAllRows should return a list with the same length as the number of images in PATH_IMAGES_RAW.
     """
     sqlManagement = SQLManagement(reload=True)
 
