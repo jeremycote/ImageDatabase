@@ -80,5 +80,13 @@ def test_SQLManagement_getRowsWithValue_IntegerTest(value: str, column: str, str
     ("19:20-40 10:10:1", "19-20-40 10:10:1")
 ])
 def test_SQLManagement_formatDateTime(value: str, expected: str):
+    """
+    Test that EXIF datetime is translated into python compatible datetime format.
+
+    Args:
+        value (str): datetime string to convert.
+        expected (str): datetime string result.
+    """
+
     result = formatDateTime(value)
     assert result == expected
