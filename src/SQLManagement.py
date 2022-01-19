@@ -56,6 +56,7 @@ class SQLManagement:
         Args:
             value (str): value to search in database
             columns (List[str]): columns to search in
+            strict (bool): exact matches only
 
         Returns:
             List[Dictionary[str,str]] - List of rows converted to dictionaries

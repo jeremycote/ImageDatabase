@@ -2,6 +2,9 @@
 # https://hub.docker.com/_/python
 FROM python:3.9-slim
 
+# Allow statements and log messages to immediately appear in the Knative logs
+ENV PYTHONUNBUFFERED True
+
 COPY . ./app
 
 RUN apt-get update
@@ -11,11 +14,8 @@ RUN apt-get install -y nodejs
 
 RUN apt-get install -y openssl
 WORKDIR "/app"
-RUN openssl req -nodes -newkey rsa:2048 -keyout database.key -out database.csr -subj "/C=CA/ST=./L=./O=. Security/OU=. Department/CN=."
-RUN openssl req -key database.key -new -x509 -days 365 -out database.crt -subj "/C=CA/ST=./L=./O=. Security/OU=. Department/CN=."
-
-# Allow statements and log messages to immediately appear in the Knative logs
-ENV PYTHONUNBUFFERED True
+RUN openssl req -nodes -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 365 -subj '/CN=localhost'
+RUN ls
 
 WORKDIR "/app/frontend"
 RUN npm install
@@ -31,4 +31,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 # For environments with multiple CPU cores, increase the number of workers
 # to be equal to the cores available.
 # Timeout is set to 0 to disable the timeouts of the workers to allow Cloud Run to handle instance scaling.
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 src.main:app --certfile=database.crt --keyfile=database.key
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 src.main:app --certfile=cert.pem --keyfile=key.pem
