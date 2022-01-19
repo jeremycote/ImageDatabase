@@ -32,8 +32,6 @@ jobs:
         cache: 'npm'
         cache-dependency-path: '**/package-lock.json'
     - run: |
-        mkdir ../static
-    - run: |
         npm ci --if-present
     - run: |
         npm run build --if-present
