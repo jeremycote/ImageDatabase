@@ -2,7 +2,9 @@ import os.path
 import sys
 sys.path.insert(0, os.path.abspath('./'))
 
-from flask import Flask, jsonify, send_from_directory, request
+import json
+
+from flask import Flask, send_from_directory, request
 from flask_cors import CORS
 
 from src.SQLManagement import SQLManagement, searchColumns
@@ -48,12 +50,12 @@ def search(query: str, columns=searchColumns):
     """
 
     results = sqlManagement.getRowsWithValue(value=query, columns=columns)
-    return jsonify(results), 201 
+    return json.dumps(results), 201 
 
 
 @app.route("/api/similar_to/<string:source>/", defaults={'accuracy': 70, 'max': 10})
 @app.route("/api/similar_to/<string:source>/<int:accuracy>/<int:max>")
-def find_similar_to(source: str, accuracy: int, max: int):
+def find_similar_to(source: str, accuracy: int, max: int): #-> Tuple[List[Dict[str:str]], int]:
     """
     Returns similar images to source in reponse to api GET request.
     Access using /api/similar_to/<string:source>/<int:accuracy>/<int:max>
@@ -91,7 +93,7 @@ def find_similar_to(source: str, accuracy: int, max: int):
             for row in sqlManagement.getRowsWithValue(value=simImages[i], columns=["filename"]):
                 similarImages.append(row)
 
-    return jsonify(similarImages), 201
+    return json.dumps(similarImages), 201
 
 
 @app.route('/api/search/') # If no search term, serve all images 
@@ -107,7 +109,7 @@ def get_images():
     """
     print("Getting images")
 
-    return jsonify(sqlManagement.getAllRows()), 201
+    return json.dumps(sqlManagement.getAllRows()), 201
 
 
 @app.route('/<path>/')
