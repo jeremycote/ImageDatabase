@@ -29,3 +29,5 @@ Links
 -----
 * Documentation: https://jerrytheberry-imagedatabase.readthedocs.io/en/latest/index.html
 * Live Demo: https://imagedatabase-thoh6yxbsa-uc.a.run.app/
+
+Note: Live Demo may take 2-3 minutes to serve webpage if it was asleep.

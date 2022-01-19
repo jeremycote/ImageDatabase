@@ -161,11 +161,18 @@ def transformImages(inputDir = PATH_IMAGES_RAW, outputDir = PATH_IMAGES_CNN, fil
         os.makedirs(outputDir)
 
     for imageName in filenames:
-        I = Image.open(os.path.join(inputDir, imageName))
-        newI = transformationForCNNInput(I)
 
-        if "exif" in I.info:
-            exif = I.info['exif']
-            newI.save(os.path.join(outputDir, imageName), exif=exif)
-        else:
-            newI.save(os.path.join(outputDir, imageName))
+        imageOutputPath = os.path.join(outputDir, imageName)
+        imagePath = os.path.join(inputDir, imageName)
+        if not os.path.isfile(imageOutputPath):
+            I = Image.open(imagePath)
+            newI = transformationForCNNInput(I)
+
+            if "exif" in I.info:
+                exif = I.info['exif']
+                newI.save(imageOutputPath, exif=exif)
+            else:
+                newI.save(imageOutputPath)
+
+if __name__ == '__main__':
+    transformImages()
