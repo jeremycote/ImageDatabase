@@ -16,7 +16,7 @@ To get started, you will need `Docker <https://www.docker.com/get-started>`_.
        git clone https://github.com/jeremycote/ImageDatabase.git
        cd ImageDatabase
        docker build -f SelfSignDockerfile -t "image-database:SelfSignDockerfile" .
-       docker run --env PORT=5000 --name ImageDatabase -d -p 5000:5000 image-database:SelfSignDockerfile
+       docker run --env PORT=5050 --name ImageDatabase -d -p 5050:5050 image-database:SelfSignDockerfile
 
 .. code-block:: shell
     :caption: If ssl is handled externally. Ex: Google Cloud Run.
@@ -24,7 +24,7 @@ To get started, you will need `Docker <https://www.docker.com/get-started>`_.
        git clone https://github.com/jeremycote/ImageDatabase.git
        cd ImageDatabase
        docker build -t "image-database:Dockerfile" .
-       docker run --env PORT=5000 --name ImageDatabase -d -p 5000:5000 image-database:Dockerfile
+       docker run --env PORT=5050 --name ImageDatabase -d -p 5050:5050 image-database:Dockerfile
 
 Manual/Dev Setup
 ----------------
