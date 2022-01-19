@@ -1,7 +1,8 @@
+from cmath import exp
 import os
 
-from src.SQLManagement import SQLManagement
-from src.constants import PATH_IMAGES_RAW
+from src.SQLManagement import SQLManagement, formatDateTime
+from src.constants import PATH_IMAGES_RAW, PATH_DB
 
 import pytest
 
@@ -60,3 +61,13 @@ def test_SQLManagement_getRowsWithValue_IntegerTest(value: str, column: str, str
             willPass = False
 
     assert willPass
+
+@pytest.mark.parametrize("value, expected", [
+    ("10-10-10 10:10:10", "10-10-10 10:10:10"),
+    ("10:10:10 10:10:10", "10-10-10 10:10:10"),
+    ("10-10-10 10-10-10", "10-10-10 10:10:10"),
+    ("19:20-40 10:10:1", "19-20-40 10:10:1")
+])
+def test_SQLManagement_formatDateTime(value: str, expected: str):
+    result = formatDateTime(value)
+    assert result == expected

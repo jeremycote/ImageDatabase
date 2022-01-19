@@ -28,7 +28,7 @@ def getIndex():
     Returns index.html when Flask is queried at /
     
     Returns:
-        HTML file - dist/index.html
+        HTML file - PATH_STATIC/dist/index.html
     """
 
     print("called for index")
@@ -38,7 +38,8 @@ def getIndex():
 @app.route("/api/search/<string:query>")
 def search(query: str, columns=searchColumns):
     """
-    Returns SQL rows that contain query in passed columns
+    Returns SQL rows that contain query in passed columns.
+    
     Access using /api/search/<string:query>
     
     Args:
@@ -115,7 +116,8 @@ def get_images():
 @app.route('/<path>/')
 def redirect(path):
     """
-    Redirects calls to dist folder
+    Redirects GET requests to dist folder. Ex: favicon.ico -> PATH_STATIC/dist/favicon.ico.
+
     Args:
         path (str): path to file inside dist folder
 
