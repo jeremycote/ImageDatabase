@@ -51,6 +51,17 @@ def test_SQLManagement_getRowsWithValue_StringTest(value: str, column: str, stri
     ("1", "id", True),
 ])
 def test_SQLManagement_getRowsWithValue_IntegerTest(value: str, column: str, strict: bool):
+    """
+    Test that all rows returned actually contain value.
+    If strict, columns must contain exact value. Else, column contains value as substring.
+
+    Matches are casted to int to verify that they are truly integers.
+
+    Args:
+        value (str): value to search in database.
+        column (str): column to search in database.
+        strict (bool): should do strict search.
+    """
     sqlManagement = SQLManagement(reload=False)
     
     elements = sqlManagement.getRowsWithValue(value=value, columns=[column], strict=strict)
