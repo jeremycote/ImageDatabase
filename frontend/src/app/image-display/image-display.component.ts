@@ -79,6 +79,8 @@ export class ImageDisplayComponent implements OnInit {
     .getImageEntitiesLike(image, accuracy, max)
     .subscribe(res => {
         this.imagesList = res;
+
+        this.imagesList.unshift(this.imageToShow)
       },
       console.error
     );

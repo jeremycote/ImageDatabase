@@ -38,8 +38,8 @@
   </div>
 
   <body>
-    <div class="grid-container" *ngFor="let image of imagesList">
-      <img (click)="clickedImage(image)" style="height: 20vh; aspect-ratio: 1;" src={{getPath(image.filename)}}>
+    <div class="grid-container" *ngFor="let image of imagesList; let i = index" [attr.data-index]="i">
+      <img [ngClass]="imageToShow != null && i == 0 ? 'borderedImage': ''" (click)="clickedImage(image)" style="height: 20vh; aspect-ratio: 1;" src={{getPath(image.filename)}}>
     </div>
     <div *ngIf="imagesList == []">
       Oops. No images were found.
