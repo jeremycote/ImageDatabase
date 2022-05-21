@@ -12,10 +12,6 @@ ImageDatabase
     :target: https://github.com/jeremycote/ImageDatabase/actions/workflows/node.js.yml   
     :alt: Node.js Tests status
 
-.. image:: https://img.shields.io/website-up-down-green-red/https/imagedatabase-thoh6yxbsa-uc.a.run.app/.svg
-    :target: https://imagedatabase-thoh6yxbsa-uc.a.run.app/
-    :alt: Demo Website Status
-
 
 Shopify Data Engineer application challenge
 
@@ -30,6 +26,3 @@ To get started, visit the `Install and Setup Guide <https://jerrytheberry-imaged
 Links
 -----
 * Documentation: https://jerrytheberry-imagedatabase.readthedocs.io/en/latest/index.html
-* Live Demo: https://imagedatabase-thoh6yxbsa-uc.a.run.app/
-
-Note: Live Demo may take 2-3 minutes to serve webpage if it is asleep.
